@@ -1,0 +1,16 @@
+[global]
+separator_color= frame
+font = JetBrainsMono Nerd Font 11
+
+[frame]
+width = 2
+
+[notification]
+# Font used for notifications
+font = Monospace 10
+# Background color
+background = "#282828"
+# Foreground color (text)
+foreground = "#ebdbb2"
+# Frame color
+frame_color = "#6441A5"
