@@ -4,7 +4,7 @@ return {
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
         { "antosha417/nvim-lsp-file-operations", config = true },
-        { "folke/neodev.nvim", opts = {} },
+        { "folke/neodev.nvim",                   opts = {} },
     },
     config = function()
         -- import lspconfig plugin
@@ -27,25 +27,25 @@ return {
 
                 -- set keybinds
                 opts.desc = "Show LSP references"
-                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "[R]eferences" }) -- show definition, references
 
                 opts.desc = "Go to declaration"
-                keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+                keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[D]eclarations" }) -- go to declaration
 
                 opts.desc = "Show LSP definitions"
-                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "[D]efiniton" }) -- show lsp definitions
 
                 opts.desc = "Show LSP implementations"
-                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "[I]mplementation" }) -- show lsp implementations
 
                 opts.desc = "Show LSP type definitions"
-                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "[T]ype [D]efinition" }) -- show lsp type definitions
 
                 opts.desc = "See available code actions"
-                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions" }) -- see available code actions, in visual mode will apply to selection
 
-                opts.desc = "Smart rename"
-                keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+                opts.desc = "[C]ode Smart [R]ename"
+                keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts) -- smart rename
 
                 opts.desc = "Show buffer diagnostics"
                 keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
@@ -63,7 +63,10 @@ return {
                 keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
                 opts.desc = "Restart LSP"
-                keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+                keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+                opts.desc = "Info LSP"
+                keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", opts) -- mapping to get the info about the lsp
             end,
         })
 

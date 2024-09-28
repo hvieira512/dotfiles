@@ -6,7 +6,7 @@ configuration {
     drun-display-format: "{icon} {name}";
     font: "JetBrainsMono Nerd Font 12";
     show-icons: true;
-    modes: "window,drun,run,ssh,emoji,games";
+    modes: "window,drun,run,ssh,emoji";
 }
 
 * {

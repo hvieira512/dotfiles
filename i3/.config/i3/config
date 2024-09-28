@@ -1,7 +1,7 @@
 set $mod Mod4
 floating_modifier $mod
 
-font pango:Inter 14
+font pango:JetBrainsMono NF 14
 
 # Gaps
 gaps inner 4
@@ -30,7 +30,7 @@ bindsym $mod+comma exec --no-startup-id rofi -modi games -show games -theme game
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg
 
 # reduce brightness if the battery is too low
-exec --no-startup-id ~/.config/i3/scripts/battery_monitor.sh
+# exec --no-startup-id ~/.config/i3/scripts/battery_monitor.sh
 
 # betterlockscreen
 bindsym $mod+x exec betterlockscreen -l 

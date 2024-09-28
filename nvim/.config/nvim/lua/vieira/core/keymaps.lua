@@ -1,5 +1,5 @@
 local keymap = vim.keymap
-local opts = { noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 
 -- leader key
 vim.g.mapleader = " "
@@ -11,7 +11,7 @@ vim.keymap.set("n", "Q", "<nop>")
 keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "[E]xplorer" })
 
 -- delete character without copying it into the register
-keymap.set("n", "x", '"_x', opts) 
+keymap.set("n", "x", '"_x', opts)
 
 -- center screen after scrolling
 keymap.set("n", "<C-d>", "<C-d>zz", opts)
@@ -33,14 +33,20 @@ keymap.set("v", ">", ">gv", opts)
 keymap.set("v", "p", '"_dP', opts)
 
 -- resize splits
-keymap.set("n", "<Up>", "<cmd>resize -2<CR>", opts)
-keymap.set("n", "<Down>", "<cmd>resize +2<CR>", opts)
-keymap.set("n", "<Left>", "<cmd>vertical resize +2<CR>", opts)
-keymap.set("n", "<Right>", "<cmd>vertical resize -2<CR>", opts)
+keymap.set("n", "<A-k>", "<cmd>resize -2<CR>", opts)
+keymap.set("n", "<A-j>", "<cmd>resize +2<CR>", opts)
+keymap.set("n", "<A-h>", "<cmd>vertical resize +2<CR>", opts)
+keymap.set("n", "<A-l>", "<cmd>vertical resize -2<CR>", opts)
 
 -- create splits
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "[S]plit [H]orizontally", noremap = true, silent = true })
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "[S]plit [V]ertically", noremap = true, silent = true })
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "[S]plit [E]qual", noremap = true, silent = true })
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "[S]plit Close", noremap = true, silent = true })
+keymap.set("n", "<leader>s=", "<C-w>=", { desc = "[S]plit [E]qual", noremap = true, silent = true })
+keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit Close", noremap = true, silent = true })
 keymap.set("n", "<leader>sm", "<cmd>MaximizerToggle<CR>", { desc = "[S]plit [M]aximize", noremap = true, silent = true })
+
+-- select all code
+keymap.set("n", "<C-a>", "ggVG", { noremap = true, silent = true })
+
+-- enter zen mode
+vim.keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>")

@@ -8,9 +8,25 @@ return {
     config = function()
         local wk = require("which-key")
         wk.add({
-            { "<leader>s", group = "[S]plit" },
-            { "<leader>e", group = "[E]xplorer" },
-            { "<leader>f", group = "[F]ind" },
+            -- Keymaps groups
+            { "<leader>s",        group = "[S]plit" },
+            { "<leader>e",        group = "[E]xplorer Toggle" },
+            { "<leader>f",        group = "[F]ind" },
+            { "<leader>c",        group = "[C]ode" },
+            { "<leader>g",        group = "[G]o To" },
+            { "<leader>u",        group = "[U]I" },
+            { "<leader>w",        group = "Session" },
+            { "<leader>l",        group = "[L]SP" },
+            { "<leader>L",        group = "[L]azy" },
+            { "<leader>H",        group = "[H]arpoon" },
+            { "<leader>x",        group = "Trouble" },
+            { "<leader>d",        group = "[D]ebug" },
+
+            -- Hide keymaps
+            { "<leader><leader>", hidden = true },
+            { "<leader>d",        hidden = true },
+            { "<leader>D",        hidden = true },
+            { "<leader>F",        hidden = true }
         })
     end
 }

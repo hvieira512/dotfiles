@@ -15,8 +15,9 @@ opt.relativenumber = true
 opt.number = true
 
 -- tab size
-opt.tabstop = 4
-opt.shiftwidth = 4
+local tab_size = 4
+opt.tabstop = tab_size
+opt.shiftwidth = tab_size
 opt.expandtab = true
 opt.autoindent = true
 
@@ -59,16 +60,26 @@ opt.mouse = "a"       -- Enable mouse for all modes
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
 
+local keymap = vim.keymap
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+    desc = 'Force commentstring to include spaces',
+    -- group = ...,
+    callback = function(event)
+        local cs = vim.bo[event.buf].commentstring
+        vim.bo[event.buf].commentstring = cs:gsub('(%S)%%s', '%1 %%s'):gsub('%%s(%S)', '%%s %1')
+    end,
+})
