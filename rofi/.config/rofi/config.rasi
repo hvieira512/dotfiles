@@ -4,7 +4,7 @@ configuration {
     display-drun: "Apps:";
     display-window: "Window";
     drun-display-format: "{icon} {name}";
-    font: "JetBrainsMono Nerd Font 12";
+    font: "Liga SFMono Nerd Font 12";
     show-icons: true;
     modes: "window,drun,run,ssh,emoji";
 }
