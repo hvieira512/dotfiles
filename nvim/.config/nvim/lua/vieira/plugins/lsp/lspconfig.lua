@@ -92,7 +92,7 @@ return {
                 -- configure emmet language server
                 lspconfig["emmet_ls"].setup({
                     capabilities = capabilities,
-                    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+                    filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "php" },
                 })
             end,
             ["lua_ls"] = function()
@@ -110,6 +110,11 @@ return {
                             },
                         },
                     },
+                })
+            end,
+            ["sqlls"] = function()
+                lspconfig.sqlls.setup({
+                    capabilities = capabilities,
                 })
             end,
         })

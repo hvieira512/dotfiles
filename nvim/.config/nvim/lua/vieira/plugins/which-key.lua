@@ -19,13 +19,15 @@ return {
             { "<leader>l",        group = "[L]SP" },
             { "<leader>L",        group = "[L]azy" },
             { "<leader>H",        group = "[H]arpoon" },
-            { "<leader>x",        group = "Trouble" },
-            { "<leader>d",        group = "[D]ebug" },
+            { "<leader>d",        group = "[D]iagnostic" },
+            { "<leader>D",        group = "[D]ebug" },
 
             -- Hide keymaps
             { "<leader><leader>", hidden = true },
-            { "<leader>d",        hidden = true },
+            { "<leader>d",        hidden = false },
             { "<leader>D",        hidden = true },
+            { "<leader>-",        hidden = true },
+            { "<leader>+",        hidden = true },
             { "<leader>F",        hidden = true }
         })
     end

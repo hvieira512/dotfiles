@@ -7,9 +7,6 @@ vim.opt.showmode = false
 -- nerd font
 g.have_nerd_font = true
 
--- netrw style
-vim.cmd("let g:netrw_liststyle = 3")
-
 -- line numbers
 opt.relativenumber = true
 opt.number = true
@@ -23,6 +20,9 @@ opt.autoindent = true
 
 -- line wrap
 opt.wrap = false
+
+-- columns
+opt.colorcolumn = "80,120"
 
 -- search settings
 vim.opt.ignorecase = true -- ignore case when searching

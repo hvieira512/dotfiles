@@ -1,4 +1,5 @@
 return {
+    -- Rosé Pine
     {
         'rose-pine/neovim',
         name = 'rose-pine',
@@ -8,15 +9,20 @@ return {
             local rosepine = require("rose-pine")
 
             rosepine.setup({
-                variant = 'auto',
+                variant = 'moon',
                 dark_variant = 'moon',
-                -- disable_background = true,
-                -- disable_float_background = true,
+                disable_background = true,
+                disable_float_background = true,
+
+                styles = {
+                    italic = false
+                }
             })
 
             vim.cmd('colorscheme rose-pine') -- set as default theme
         end
     },
+    -- Catppuccin
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -26,7 +32,7 @@ return {
             local catppuccin = require("catppuccin")
 
             catppuccin.setup({
-                -- transparent_background = true
+                -- transparent_background = true,
                 flavour = "mocha"
             })
 
