@@ -34,7 +34,7 @@ return {
 
         telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
-        -- telescope.load_extension("media-files")
+        telescope.load_extension("noice")
 
         keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })
@@ -44,6 +44,7 @@ return {
         keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind Current [W]ord" })
         keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "[F]ind [T]odos" })
         keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
+        keymap.set("n", "<leader>fs", builtin.lsp_workspace_symbols, { desc = "[F]ind [S]ymbols" })
         keymap.set("n", "<leader>uc", builtin.colorscheme, { desc = "[U]I [C]olorscheme" })
 
         -- Shortcut for searching your Neovim configuration files

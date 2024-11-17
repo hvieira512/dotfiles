@@ -20,10 +20,10 @@ case "$SELECTION" in
         xrandr --output "$PRIMARY" --auto --output "$SECONDARY" --off
         ;;
     "Same image in both displays")
-        xrandr --output "$PRIMARY" --auto --output "$SECONDARY" --auto --same-as "$PRIMARY"
+        xrandr --output "$PRIMARY" --primary --auto --output "$SECONDARY" --auto --same-as "$PRIMARY"
         ;;
     "Extend displays")
-        xrandr --output "$PRIMARY" --auto --output "$SECONDARY" --auto --right-of "$PRIMARY"
+        xrandr --output "$PRIMARY" --primary --auto --output "$SECONDARY" --auto --left-of "$PRIMARY"
         ;;
     *)
         echo "Invalid option selected."

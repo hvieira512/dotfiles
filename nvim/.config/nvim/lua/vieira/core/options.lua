@@ -44,17 +44,16 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 opt.splitright = true
 opt.splitbelow = true
 
-opt.fillchars:append({ eob = " " }) -- disable symbols on empty lines
-
 -- lines when scrolling
 opt.scrolloff = 10
 opt.sidescrolloff = 10
 
-opt.lazyredraw = true -- Redraw screen only when needed
-opt.updatetime = 300  -- Faster completion (default is 4000ms)
-opt.timeoutlen = 300  -- Time to wait for a mapped sequence to complete
+opt.updatetime = 300          -- Faster completion (default is 4000ms)
+opt.timeoutlen = 300          -- Time to wait for a mapped sequence to complete
 
-opt.mouse = "a"       -- Enable mouse for all modes
+opt.mouse = "a"               -- Enable mouse for all modes
+
+opt.fillchars = { eob = ' ' } -- disable tilda on empty line
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

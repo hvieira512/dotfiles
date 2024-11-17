@@ -21,14 +21,6 @@ return {
                 async = false,
                 timeout_ms = 1000,
             },
-
-            vim.keymap.set({ "n", "v" }, "<leader>F", function()
-                conform.format({
-                    lsp_fallback = true,
-                    async = false,
-                    timeout_ms = 1000,
-                })
-            end, { desc = "[F]ormat file or range (visual)" })
         })
     end
 }

@@ -24,7 +24,6 @@ return {
 
             -- Hide keymaps
             { "<leader><leader>", hidden = true },
-            { "<leader>d",        hidden = false },
             { "<leader>D",        hidden = true },
             { "<leader>-",        hidden = true },
             { "<leader>+",        hidden = true },

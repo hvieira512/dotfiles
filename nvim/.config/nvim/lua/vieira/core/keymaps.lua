@@ -62,4 +62,4 @@ keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en Mode" })
 keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
 
 -- enter DadBodUI
-keymap.set("n", "<leader>ud", "<cmd>DBUI<CR>", { desc = "[D]BUI" })
+keymap.set("n", "<leader>ud", "<cmd>DBUIToggle<CR>", { desc = "[D]BUI" })
