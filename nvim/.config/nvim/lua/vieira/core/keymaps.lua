@@ -9,15 +9,14 @@ vim.g.maplocalleader = " "
 keymap.set("n", "Q", "<nop>")
 
 -- increment and decrement number
-opts.desc = "Increment Number"
-keymap.set("n", "<leader>+", "<C-a>", opts)
-opts.desc = "Decrement Number"
-keymap.set("n", "<leader>-", "<C-x>", opts)
+keymap.set("n", "+", "<C-a>", opts)
+keymap.set("n", "-", "<C-x>", opts)
 
 -- toggle file explorer
 keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "[E]xplorer" })
 
 -- delete character ithout copying it into the register
+-- so huge btw
 keymap.set("n", "x", '"_x', opts)
 
 -- center screen after scrolling
@@ -36,10 +35,10 @@ keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
--- keep last yanked when pasting
+-- keep last yanked after pasting
 keymap.set("v", "p", '"_dP', opts)
 
--- resize splits
+-- resize splits with alt+hjkl
 keymap.set("n", "<A-k>", "<cmd>resize -2<CR>", opts)
 keymap.set("n", "<A-j>", "<cmd>resize +2<CR>", opts)
 keymap.set("n", "<A-h>", "<cmd>vertical resize +2<CR>", opts)

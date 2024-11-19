@@ -34,7 +34,7 @@ return {
 
         telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
-        telescope.load_extension("noice")
+        -- telescope.load_extension("noice")
 
         keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })
