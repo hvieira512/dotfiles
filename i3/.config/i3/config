@@ -36,6 +36,9 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,s
 # betterlockscreen
 # bindsym $mod+x exec betterlockscreen -l 
 
+# festival
+exec_always --no-startup-id festival --server &
+
 # picom
 exec_always --no-startup-id picom &
 
