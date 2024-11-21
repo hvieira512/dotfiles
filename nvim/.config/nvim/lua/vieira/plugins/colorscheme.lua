@@ -9,14 +9,12 @@ return {
             local rosepine = require("rose-pine")
 
             rosepine.setup({
-                variant = 'moon',
-                dark_variant = 'moon',
-                disable_background = true,
-                disable_float_background = true,
+                variant = "moon",      -- auto, main, moon, or dawn
+                dark_variant = "moon", -- main, moon, or dawn
 
                 styles = {
-                    italic = false
-                }
+                    italic = false,
+                },
             })
 
             vim.cmd('colorscheme rose-pine') -- set as default theme

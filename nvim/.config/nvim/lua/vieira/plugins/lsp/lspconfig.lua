@@ -106,5 +106,9 @@ return {
                 })
             end,
         })
+
+        lspconfig["dartls"].setup({
+            cmd = { "dart", 'language-server', '--protocol=lsp' },
+        })
     end,
 }
