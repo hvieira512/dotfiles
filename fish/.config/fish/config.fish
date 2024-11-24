@@ -44,3 +44,10 @@ end
 alias po="pomodoro"
 alias wo="pomodoro work 45"
 alias br="pomodoro break 10"
+
+# flutter variables
+set -Ux ANDROID_HOME $HOME/android-sdk
+set -U fish_user_paths $ANDROID_HOME/platform-tools $fish_user_paths
+set -Ux JAVA_HOME /usr/lib/jvm/java-17-openjdk
+set -x PATH $JAVA_HOME/bin $PATH
+set -Ux CHROME_EXECUTABLE /usr/bin/brave

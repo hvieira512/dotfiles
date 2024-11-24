@@ -7,13 +7,12 @@ return {
         "nvim-tree/nvim-web-devicons",
         "folke/todo-comments.nvim",
         { 'nvim-telescope/telescope-ui-select.nvim' },
-        -- "nvim-telescope/telescope-media-files.nvim",
     },
     config = function()
         local telescope = require("telescope")
         local actions = require("telescope.actions")
         local builtin = require("telescope.builtin")
-        local keymap = vim.keymap -- for conciseness
+        local keymap = vim.keymap
 
         telescope.setup({
             defaults = {
@@ -34,7 +33,7 @@ return {
 
         telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
-        -- telescope.load_extension("noice")
+        telescope.load_extension("flutter")
 
         keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })

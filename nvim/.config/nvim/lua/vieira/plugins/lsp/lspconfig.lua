@@ -10,8 +10,27 @@ return {
         local lspconfig = require("lspconfig")
         local mason_lspconfig = require("mason-lspconfig")
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
         local keymap = vim.keymap
+
+        local function setup_flutter_keymaps(buf)
+            local opts = { buffer = buf, silent = true }
+
+            -- Flutter-specific keymaps
+            keymap.set("n", "<leader>cR", "<cmd>FlutterRun<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode [R]un Flutter App" }))
+            keymap.set("n", "<leader>cq", "<cmd>FlutterQuit<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode [Q]uit Flutter App" }))
+            keymap.set("n", "<leader>ch", "<cmd>FlutterHotReload<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode [H]ot Reload" }))
+            keymap.set("n", "<leader>cH", "<cmd>FlutterHotRestart<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode [H]ot Restart" }))
+            keymap.set("n", "<leader>cd", "<cmd>FlutterDevices<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode Select [D]evice" }))
+            keymap.set("n", "<leader>co", "<cmd>FlutterOutlineToggle<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode [O]utline Toggle" }))
+            keymap.set("n", "<leader>cl", "<cmd>FlutterLogClear<CR>",
+                vim.tbl_extend("force", opts, { desc = "[C]ode Clear [L]ogs" }))
+        end
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -19,47 +38,47 @@ return {
                 local opts = { buffer = ev.buf, silent = true }
 
                 -- keybinds
-                opts.desc = "Show LSP references"
-                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "[R]eferences" }) -- show definition, references
+                opts.desc = "[R]eferences"
+                keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
 
-                opts.desc = "Go to declaration"
-                keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[D]eclarations" }) -- go to declaration
+                opts.desc = "[D]eclarations"
+                keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
-                opts.desc = "Show LSP definitions"
-                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "[D]efiniton" }) -- show lsp definitions
+                opts.desc = "[D]efiniton"
+                keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
 
-                opts.desc = "Show LSP implementations"
-                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "[I]mplementation" }) -- show lsp implementations
+                opts.desc = "[I]mplementation"
+                keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
-                opts.desc = "Show LSP type definitions"
-                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "[T]ype [D]efinition" }) -- show lsp type definitions
+                opts.desc = "[T]ype [D]efinition"
+                keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 
-                opts.desc = "See available code actions"
-                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ctions" }) -- see available code actions, in visual mode will apply to selection
-
+                opts.desc = "[C]ode [A]ctions"
+                keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                 opts.desc = "[C]ode Smart [R]ename"
-                keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts) -- smart rename
+                keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
+
+                if vim.fn.filereadable(vim.fn.getcwd() .. "/pubspec.yaml" == 1) then
+                    setup_flutter_keymaps(ev.buf)
+                end
 
                 opts.desc = "Show buffer diagnostics"
-                keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
+                keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
                 opts.desc = "Show line diagnostics"
-                keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
+                keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
                 opts.desc = "Go to previous diagnostic"
-                keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
+                keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
                 opts.desc = "Go to next diagnostic"
-                keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+                keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 
                 opts.desc = "Show documentation for what is under cursor"
-                keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+                keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
                 opts.desc = "Restart LSP"
-                keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+                keymap.set("n", "<leader>lr", "<cmd>LspRestart<CR>", opts)
 
                 opts.desc = "Info LSP"
-                keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", opts) -- mapping to get the info about the lsp
+                keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", opts)
             end,
         })
 

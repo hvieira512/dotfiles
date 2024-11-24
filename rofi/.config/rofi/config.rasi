@@ -1,4 +1,4 @@
-@theme "/usr/share/rofi/themes/gruvbox-dark.rasi"
+@theme "~/dotfiles/rofi/.config/rofi/rose-pine-moon.rasi"
 
 configuration {
     display-drun: "Apps:";

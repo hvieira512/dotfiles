@@ -48,17 +48,17 @@ keymap.set("n", "<A-l>", "<cmd>vertical resize -2<CR>", opts)
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "[S]plit [H]orizontally" })
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "[S]plit [V]ertically" })
 keymap.set("n", "<leader>s=", "<C-w>=", { desc = "[S]plit [E]qual" })
-keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit Close" })
+keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit [Q]uit" })
 keymap.set("n", "<leader>sm", "<cmd>MaximizerToggle<CR>", { desc = "[S]plit [M]aximize" })
+
+-- move splits
+keymap.set("n", "<C-A-h>", "<cmd>wincmd H<CR>", { desc = "Move Split Left" })
+keymap.set("n", "<C-A-j>", "<cmd>wincmd J<CR>", { desc = "Move Split Down" })
+keymap.set("n", "<C-A-k>", "<cmd>wincmd K<CR>", { desc = "Move Split Up" })
+keymap.set("n", "<C-A-l>", "<cmd>wincmd L<CR>", { desc = "Move Split Right" })
 
 -- select all code
 keymap.set("n", "<C-a>", "ggVG", opts)
 
--- enter zen mode
-keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "[Z]en Mode" })
-
 -- enter lazy
 keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
-
--- enter DadBodUI
-keymap.set("n", "<leader>ud", "<cmd>DBUIToggle<CR>", { desc = "[D]BUI" })
