@@ -15,7 +15,6 @@ require("lazy").setup(
     {
         { import = "vieira.plugins" },
         { import = "vieira.plugins.lsp" },
-        { import = "vieira.plugins.dap" }
     },
     {
         checker = {

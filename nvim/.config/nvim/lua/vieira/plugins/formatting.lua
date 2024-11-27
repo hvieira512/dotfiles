@@ -2,9 +2,7 @@ return {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        local conform = require("conform")
-
-        conform.setup({
+        require("conform").setup({
             formatters_by_tf = {
                 javascript = { "prettier" },
                 javascriptreact = { "prettier" },
@@ -15,6 +13,7 @@ return {
                 markdown = { "prettier" },
                 lua = { "isort" },
                 python = { "isort", "black" },
+                dart = { "prettier" },
             },
             format_on_save = {
                 lsp_fallback = true,

@@ -58,7 +58,7 @@ return {
                 opts.desc = "[C]ode Smart [R]ename"
                 keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
 
-                if vim.fn.filereadable(vim.fn.getcwd() .. "/pubspec.yaml" == 1) then
+                if vim.fn.filereadable(vim.fn.getcwd() .. "/pubspec.yaml") == 1 then
                     setup_flutter_keymaps(ev.buf)
                 end
 
@@ -124,10 +124,6 @@ return {
                     },
                 })
             end,
-        })
-
-        lspconfig["dartls"].setup({
-            cmd = { "dart", 'language-server', '--protocol=lsp' },
         })
     end,
 }

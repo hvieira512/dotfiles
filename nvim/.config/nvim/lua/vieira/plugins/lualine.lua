@@ -4,10 +4,6 @@ return {
     config = function()
         local lualine = require("lualine")
 
-        lualine.setup({
-            options = {
-                theme = 'palenight'
-            }
-        })
+        lualine.setup({})
     end
 }

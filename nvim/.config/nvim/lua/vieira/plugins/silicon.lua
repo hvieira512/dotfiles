@@ -4,7 +4,6 @@ return {
     cmd = "Silicon",
     main = "nvim-silicon",
     config = function()
-        local wk = require("which-key")
         local silicon = require("nvim-silicon")
 
         silicon.setup({

@@ -12,8 +12,6 @@
 	red: #eb6f92;
 	yel: #f6c177;
 
-	font: "Cartograph CF 12";
-
 	foreground: @fgd;
 	background: @bg;
 	active-background: @grn;
