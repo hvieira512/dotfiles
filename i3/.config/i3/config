@@ -44,6 +44,9 @@ exec_always --no-startup-id festival --server &
 # picom
 exec_always --no-startup-id picom &
 
+# dunst
+exec --no-startup-id dunst &
+
 # screenshot using flameshot
 bindsym Print exec flameshot gui
 bindsym $mod+Shift+s exec flameshot gui
@@ -63,7 +66,6 @@ bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness_notify.sh 10%-
 
 # audio
-exec --no-startup-id dunst &
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && ~/.config/i3/scripts/volume_notify.sh && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && ~/.config/i3/scripts/volume_notify.sh && $refresh_i3status
