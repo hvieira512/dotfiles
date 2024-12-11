@@ -37,9 +37,9 @@ opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
 
-opt.backspace = "indent,eol,start"  -- allow backspace on indent, end of line or insert mode position
+opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode position
 
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard = "unnamedplus"
 
 opt.splitright = true
 opt.splitbelow = true

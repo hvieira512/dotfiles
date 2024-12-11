@@ -7,6 +7,7 @@ vim.g.maplocalleader = " "
 
 -- just dont use it
 keymap.set("n", "Q", "<nop>")
+keymap.set("n", "<cmd>w\\<CR>", "<nop>")
 
 -- increment and decrement number
 keymap.set("n", "+", "<C-a>", opts)

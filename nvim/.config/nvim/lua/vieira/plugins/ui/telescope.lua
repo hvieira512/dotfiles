@@ -27,6 +27,9 @@ return {
             pickers = {
                 colorscheme = {
                     enable_preview = true
+                },
+                find_files = {
+                    hidden = true
                 }
             }
         })
@@ -35,8 +38,18 @@ return {
         telescope.load_extension("ui-select")
         telescope.load_extension("flutter")
 
-        keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
-        keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })
+        -- keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+        -- keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })
+        keymap.set("n", "<leader><leader>", function()
+            require('telescope.builtin').find_files({
+                find_command = { 'rg', '--files', '--hidden', '--no-ignore', '-g', '!.git' }
+            })
+        end, { desc = "[F]ind [F]iles" })
+        keymap.set("n", "<leader>ff", function()
+            require('telescope.builtin').find_files({
+                find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
+            })
+        end, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "[F]ind [R]ecent Files" })
         keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
         keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind [G]rep" })

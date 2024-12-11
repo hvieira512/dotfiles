@@ -14,6 +14,7 @@ return {
 
                 styles = {
                     italic = false,
+                    bold = false,
                 },
             })
 
