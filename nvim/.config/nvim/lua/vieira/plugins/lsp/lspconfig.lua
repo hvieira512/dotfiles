@@ -2,15 +2,15 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
+        { "saghen/blink.cmp" },
         { "antosha417/nvim-lsp-file-operations", config = true },
         { "folke/neodev.nvim",                   opts = {} },
     },
     config = function()
         local lspconfig = require("lspconfig")
         local mason_lspconfig = require("mason-lspconfig")
-        local cmp_nvim_lsp = require("cmp_nvim_lsp")
         local keymap = vim.keymap
+        local blink = require("blink-cmp")
 
         local function setup_flutter_keymaps(buf)
             local opts = { buffer = buf, silent = true }
@@ -83,7 +83,7 @@ return {
         })
 
         -- used to enable autocompletion (assign to every lsp server config)
-        local capabilities = cmp_nvim_lsp.default_capabilities()
+        local capabilities = blink.get_lsp_capabilities()
 
         -- Change the Diagnostic symbols in the sign column (gutter)
         -- (not in youtube nvim video)

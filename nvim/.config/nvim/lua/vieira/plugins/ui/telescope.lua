@@ -53,10 +53,10 @@ return {
         keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "[F]ind [R]ecent Files" })
         keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
         keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind [G]rep" })
+        keymap.set("n", "<leader>fs", builtin.lsp_dynamic_workspace_symbols, { desc = "[F]ind [S]ymbols" })
         keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind Current [W]ord" })
         keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "[F]ind [T]odos" })
         keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
-        keymap.set("n", "<leader>fs", builtin.lsp_workspace_symbols, { desc = "[F]ind [S]ymbols" })
         keymap.set("n", "<leader>uc", builtin.colorscheme, { desc = "[U]I [C]olorscheme" })
 
         -- Shortcut for searching your Neovim configuration files
