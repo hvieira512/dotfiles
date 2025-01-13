@@ -13,9 +13,7 @@ for_window [class=".*"] border pixel 2
 # Programs to start in floating mode
 for_window [class="steam"] floating enable, resize set 1600 900, move position center
 for_window [class="dolphin"] floating enable, resize set 1600 900, move position center
-for_window [class="kitty"] floating enable, resize set 1600 900, move position center
 for_window [class="pavucontrol"] floating enable, resize set 1600 900, move position center
-for_window [class="discord"] floating enable, resize set 1600 900, move position center
 
 exec --no-startup-id i3-battery-popup -n -D -L 20 -l 10
 
