@@ -51,3 +51,5 @@ set -U fish_user_paths $ANDROID_HOME/platform-tools $fish_user_paths
 set -Ux JAVA_HOME /usr/lib/jvm/java-17-openjdk
 set -x PATH $JAVA_HOME/bin $PATH
 set -Ux CHROME_EXECUTABLE /usr/bin/brave
+
+zoxide init fish | source
