@@ -1,11 +1,9 @@
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
--- leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- just dont use it
 keymap.set("n", "Q", "<nop>")
 keymap.set("n", "<cmd>w\\<CR>", "<nop>")
 
@@ -63,3 +61,11 @@ keymap.set("n", "<C-a>", "ggVG", opts)
 
 -- enter lazy
 keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
+
+-- go into zen mode
+keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", opts)
+
+-- toggle kitty background opacity
+keymap.set("n", "<leader>ut", function()
+    vim.fn.system(vim.fn.expand("~/.config/kitty/toggle_opacity.sh"))
+end, { desc = "Toggle Transparency" })

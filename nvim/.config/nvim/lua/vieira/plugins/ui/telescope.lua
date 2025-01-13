@@ -23,13 +23,17 @@ return {
                         ["<C-j>"] = actions.move_selection_next,     -- move to next result
                     },
                 },
+                -- layout_config = {
+                --     prompt_position = "top",
+                -- },
+                -- sorting_strategy = "ascending",
             },
             pickers = {
                 colorscheme = {
                     enable_preview = true
                 },
                 find_files = {
-                    hidden = true
+                    hidden = true,
                 }
             }
         })
