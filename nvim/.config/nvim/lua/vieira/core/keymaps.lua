@@ -64,8 +64,3 @@ keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
 
 -- go into zen mode
 keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", opts)
-
--- toggle kitty background opacity
-keymap.set("n", "<leader>ut", function()
-    vim.fn.system(vim.fn.expand("~/.config/kitty/toggle_opacity.sh"))
-end, { desc = "Toggle Transparency" })

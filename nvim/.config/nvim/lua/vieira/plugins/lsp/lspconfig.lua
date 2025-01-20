@@ -5,6 +5,7 @@ return {
         { "saghen/blink.cmp" },
         { "antosha417/nvim-lsp-file-operations", config = true },
         { "folke/neodev.nvim",                   opts = {} },
+        { "nvim-java/nvim-java" },
     },
     config = function()
         local lspconfig = require("lspconfig")
@@ -82,11 +83,8 @@ return {
             end,
         })
 
-        -- used to enable autocompletion (assign to every lsp server config)
         local capabilities = blink.get_lsp_capabilities()
 
-        -- Change the Diagnostic symbols in the sign column (gutter)
-        -- (not in youtube nvim video)
         local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
