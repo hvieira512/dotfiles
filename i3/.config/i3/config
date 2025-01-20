@@ -34,7 +34,7 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,s
 # exec --no-startup-id ~/.config/i3/scripts/battery_monitor.sh
 
 # betterlockscreen
-# bindsym $mod+x exec betterlockscreen -l 
+bindsym $mod+x exec betterlockscreen -l 
 
 # festival
 exec_always --no-startup-id festival --server &
