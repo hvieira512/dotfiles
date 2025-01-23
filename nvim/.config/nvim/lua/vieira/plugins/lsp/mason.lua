@@ -23,7 +23,6 @@ return {
             local mason_tool_installer = require("mason-tool-installer")
 
             mason_lspconfig.setup({
-                -- list of servers for mason to install
                 ensure_installed = {
                     "html",
                     "cssls",
@@ -31,7 +30,6 @@ return {
                     "emmet_ls",
                     "pyright",
                     "gopls",
-                    "jdtls",
                 },
             })
 
