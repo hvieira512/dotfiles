@@ -1,5 +1,4 @@
 return {
-    -- syntax highlight
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
@@ -7,10 +6,8 @@ return {
         "windwp/nvim-ts-autotag",
     },
     config = function()
-        -- import nvim-treesitter plugin
         local treesitter = require("nvim-treesitter.configs")
 
-        -- configure treesitter
         treesitter.setup({
             -- enable syntax highlighting
             highlight = {
