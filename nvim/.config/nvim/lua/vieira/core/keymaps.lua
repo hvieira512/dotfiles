@@ -12,7 +12,7 @@ keymap.set("n", "+", "<C-a>", opts)
 keymap.set("n", "-", "<C-x>", opts)
 
 -- toggle file explorer
-keymap.set("n", "<leader>e", "<cmd>Neotree toggle<CR>", { desc = "[E]xplorer" })
+keymap.set("n", "<leader>e", "<cmd>Oil<CR>", { desc = "[E]xplorer" })
 
 -- delete character ithout copying it into the register
 -- so huge btw
