@@ -17,6 +17,17 @@ return {
         telescope.setup({
             defaults = {
                 path_display = { "smart" },
+                file_ignore_patterns = {
+                    "venv/",
+                    "__pycache__/",
+                    "%.pyc$",
+                    "%.pyo$",
+                    "%.pyd$",
+                    "%.git/",
+                    "node_modules/",
+                    "env/",
+                    "venv/",
+                },
                 mappings = {
                     i = {
                         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
@@ -42,21 +53,15 @@ return {
         telescope.load_extension("ui-select")
         telescope.load_extension("flutter")
 
-        -- keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
-        -- keymap.set("n", "<leader><leader>", builtin.find_files, { noremap = true, silent = true })
         keymap.set("n", "<leader><leader>", function()
-            require('telescope.builtin').find_files({
-                find_command = { 'rg', '--files', '--hidden', '--no-ignore', '-g', '!.git' }
-            })
+            builtin.find_files({ find_command = { 'rg', '--files', '--hidden', '--no-ignore', '-g', '!.git' } })
         end, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader>ff", function()
-            require('telescope.builtin').find_files({
-                find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
-            })
+            builtin.find_files({ find_command = { 'rg', '--files', '--hidden', '--no-ignore', '-g', '!.git' } })
         end, { desc = "[F]ind [F]iles" })
         keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "[F]ind [R]ecent Files" })
         keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
-        keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind [G]rep" })
+        keymap.set("n", "<leader>/", builtin.live_grep, { desc = "[F]ind [G]rep" })
         keymap.set("n", "<leader>fs", builtin.lsp_dynamic_workspace_symbols, { desc = "[F]ind [S]ymbols" })
         keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind Current [W]ord" })
         keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "[F]ind [T]odos" })

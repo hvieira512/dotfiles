@@ -61,6 +61,3 @@ keymap.set("n", "<C-a>", "ggVG", opts)
 
 -- enter lazy
 keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
-
--- go into zen mode
-keymap.set("n", "<leader>z", "<cmd>ZenMode<CR>", opts)
