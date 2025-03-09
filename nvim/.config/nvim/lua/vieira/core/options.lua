@@ -82,3 +82,25 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
         vim.bo[event.buf].commentstring = cs:gsub('(%S)%%s', '%1 %%s'):gsub('%%s(%S)', '%%s %1')
     end,
 })
+
+-- Set all HTML files as htmldjango buftype, for flask projects
+local function is_flask_project()
+    local reqs_file = vim.fn.findfile("requirements.txt", ".;")
+    if reqs_file ~= "" then
+        for line in io.lines(reqs_file) do
+            if line:match("Flask") then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+if is_flask_project() then
+    vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        pattern = "*.html",
+        callback = function()
+            vim.bo.filetype = "htmldjango"
+        end,
+    })
+end

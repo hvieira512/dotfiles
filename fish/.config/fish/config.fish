@@ -13,6 +13,10 @@ set -gx EDITOR nvim
 # aliases
 alias kickstart "NVIM_APPNAME=kickstart nvim"
 alias vim nvim
+alias lazyvim "NVIM_APPNAME=lazyvim nvim"
+alias v nvim
+alias docker-start "systemctl --user enable docker-desktop"
+alias docker-stop "systemctl --user stop docker-destop"
 
 # Ensure /usr/bin/go is only added once to PATH
 if not string match -q -- /usr/bin/go $PATH
@@ -47,6 +51,7 @@ alias br="pomodoro break 10"
 
 # flutter variables
 set -Ux ANDROID_HOME $HOME/android-sdk
+set -Ux PATH $ANDROID_HOME/emulator $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools $PATH
 set -U fish_user_paths $ANDROID_HOME/platform-tools $fish_user_paths
 set -Ux JAVA_HOME /usr/lib/jvm/java-17-openjdk
 set -x PATH $JAVA_HOME/bin $PATH
