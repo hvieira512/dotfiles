@@ -22,7 +22,7 @@ opt.autoindent = true
 opt.wrap = false
 
 -- columns
-opt.colorcolumn = "80,120"
+opt.colorcolumn = "80"
 
 -- search settings
 vim.opt.ignorecase = true -- ignore case when searching
@@ -54,6 +54,8 @@ opt.timeoutlen = 300          -- Time to wait for a mapped sequence to complete
 opt.mouse = "a"               -- Enable mouse for all modes
 
 opt.fillchars = { eob = ' ' } -- disable tilda on empty line
+
+opt.swapfile = false
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -103,4 +105,8 @@ if is_flask_project() then
             vim.bo.filetype = "htmldjango"
         end,
     })
+end
+
+vim.ui.open = function(uri)
+    os.execute("powershell.exe start " .. uri)
 end
