@@ -16,5 +16,7 @@ return {
         keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "2nd Harpoon File" })
         keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "3rd Harpoon File" })
         keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "4th Harpoon File" })
+        keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "5th Harpoon File" })
+        keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { desc = "6th Harpoon File" })
     end
 }
