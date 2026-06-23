@@ -1,46 +1,55 @@
 #!/usr/bin/env bash
+# Toggle Caps Lock ↔ Left Control swap via keyd
+set -e
 
 KXKBRC="$HOME/.config/kxkbrc"
 OPTION="ctrl:swapcaps"
-
-SC_CAPSLOCK=0x3a
-SC_LCTRL=0x1d
-KC_CAPSLOCK=58
-KC_LCTRL=29
-
 SUDOERS_FILE="/etc/sudoers.d/setkeycodes"
+
+SCRIPT_DIR="${BASH_SOURCE[0]%/*}"
+KEYD_CONF_SRC="$(realpath "$SCRIPT_DIR/../keyd/default.conf" 2>/dev/null || echo "$SCRIPT_DIR/../keyd/default.conf")"
+
+run_sudo() {
+    if [ -f "$SUDOERS_FILE" ]; then
+        sudo -n "$@" 2>/dev/null && return 0
+    fi
+    sudo "$@"
+}
+
+install_config() {
+    if [ ! -f /etc/keyd/default.conf ] && [ -f "$KEYD_CONF_SRC" ]; then
+        run_sudo mkdir -p /etc/keyd
+        run_sudo cp "$KEYD_CONF_SRC" /etc/keyd/default.conf
+    fi
+}
 
 CURRENT=$(sed -n '/^\[Layout\]/,/^\[/{/^Options=/s/^Options=//p}' "$KXKBRC" 2>/dev/null)
 
 has_option() {
-  echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1
+    echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1
 }
 
-apply_keycodes() {
-  if [ -f "$SUDOERS_FILE" ]; then
-    sudo -n setkeycodes "$1" "$2" "$3" "$4" 2>/dev/null
-  else
-    sudo setkeycodes "$1" "$2" "$3" "$4"
-  fi
-}
+install_config
 
 if has_option; then
-  apply_keycodes "$SC_CAPSLOCK" "$KC_CAPSLOCK" "$SC_LCTRL" "$KC_LCTRL"
-  NEW=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
-  if [ -z "$NEW" ]; then
-    sed -i '/^Options=/d' "$KXKBRC"
-  else
-    sed -i "s/^Options=.*/Options=$NEW/" "$KXKBRC"
-  fi
-  echo "Swapped back (default positions)"
+    run_sudo systemctl stop keyd
+    if [ -n "$CURRENT" ]; then
+        new_opts=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
+        if [ -z "$new_opts" ]; then
+            sed -i '/^Options=/d' "$KXKBRC"
+        else
+            sed -i "s/^Options=.*/Options=$new_opts/" "$KXKBRC"
+        fi
+    fi
+    echo "Caps Lock ↔ Ctrl: OFF"
 else
-  apply_keycodes "$SC_CAPSLOCK" "$KC_LCTRL" "$SC_LCTRL" "$KC_CAPSLOCK"
-  if [ -n "$CURRENT" ]; then
-    NEW="${CURRENT},${OPTION}"
-  else
-    NEW="${OPTION}"
-  fi
-  sed -i '/^Options=/d' "$KXKBRC"
-  sed -i "/^\[Layout\]/a Options=$NEW" "$KXKBRC"
-  echo "Swapped Caps Lock with Left Control"
+    run_sudo systemctl start keyd
+    if [ -n "$CURRENT" ]; then
+        new_opts="${CURRENT},${OPTION}"
+    else
+        new_opts="${OPTION}"
+    fi
+    sed -i '/^Options=/d' "$KXKBRC"
+    sed -i "/^\[Layout\]/a Options=$new_opts" "$KXKBRC"
+    echo "Caps Lock ↔ Ctrl: ON"
 fi
