@@ -1,0 +1,13 @@
+[Unit]
+Description=KDE keyboard layout watcher - auto-toggle Caps-Ctrl swap
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=forking
+PIDFile=/tmp/kbd-layout-watcher.pid
+ExecStart=%h/bin/kbd-layout-watcher start
+ExecStop=%h/bin/kbd-layout-watcher stop
+
+[Install]
+WantedBy=graphical-session.target

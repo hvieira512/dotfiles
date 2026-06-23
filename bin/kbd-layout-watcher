@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Watch KDE keyboard layout changes and auto-toggle Caps-Ctrl swap.
+
+Layout 0 (US Alt Intl) → swap ON
+Layout 1 (Portuguese)  → swap OFF
+"""
+
+import dbus
+import dbus.mainloop.glib
+from gi.repository import GLib
+import os
+import subprocess
+import sys
+import signal
+
+TOGGLE = os.path.expanduser("~/bin/toggle-caps-ctrl")
+PID_FILE = "/tmp/kbd-layout-watcher.pid"
+
+# layout index → desired state
+LAYOUT_MAP = {
+    0: "on",
+    1: "off",
+}
+
+
+def find_toggle():
+    for p in (TOGGLE, os.path.join(os.path.dirname(__file__), "toggle-caps-ctrl")):
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def set_state(state):
+    script = find_toggle()
+    if not script:
+        print("kbd-layout-watcher: toggle-caps-ctrl not found", file=sys.stderr)
+        return
+    subprocess.run([script, state], capture_output=False)
+
+
+def on_layout_changed(index):
+    action = LAYOUT_MAP.get(index)
+    if action:
+        set_state(action)
+
+
+def run():
+    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+    bus = dbus.SessionBus()
+
+    bus.add_signal_receiver(
+        on_layout_changed,
+        signal_name="layoutChanged",
+        dbus_interface="org.kde.KeyboardLayouts",
+        bus_name="org.kde.keyboard",
+        path="/Layouts",
+    )
+
+    obj = bus.get_object("org.kde.keyboard", "/Layouts")
+    iface = dbus.Interface(obj, "org.kde.KeyboardLayouts")
+    current = iface.getLayout()
+    on_layout_changed(current)
+
+    loop = GLib.MainLoop()
+
+    def handle_sig(signum, frame):
+        loop.quit()
+
+    signal.signal(signal.SIGTERM, handle_sig)
+    signal.signal(signal.SIGINT, handle_sig)
+
+    loop.run()
+
+
+def cmd_start():
+    pid = os.fork()
+    if pid > 0:
+        print(f"kbd-layout-watcher: started (pid {pid})")
+        sys.exit(0)
+    os.setsid()
+    pid2 = os.fork()
+    if pid2 > 0:
+        sys.exit(0)
+    with open(os.devnull, "w") as null:
+        os.dup2(null.fileno(), 0)
+        os.dup2(null.fileno(), 1)
+        os.dup2(null.fileno(), 2)
+    with open(PID_FILE, "w") as f:
+        f.write(str(os.getpid()))
+    run()
+    try:
+        os.unlink(PID_FILE)
+    except FileNotFoundError:
+        pass
+
+
+def cmd_stop():
+    if not os.path.exists(PID_FILE):
+        print("kbd-layout-watcher: not running")
+        return
+    with open(PID_FILE) as f:
+        pid = int(f.read().strip())
+    os.kill(pid, signal.SIGTERM)
+    print("kbd-layout-watcher: stopped")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: kbd-layout-watcher {start|stop}", file=sys.stderr)
+        sys.exit(1)
+    {"start": cmd_start, "stop": cmd_stop}[sys.argv[1]]()
+
+
+if __name__ == "__main__":
+    main()

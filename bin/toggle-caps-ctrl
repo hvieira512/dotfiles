@@ -23,33 +23,57 @@ install_config() {
     fi
 }
 
-CURRENT=$(sed -n '/^\[Layout\]/,/^\[/{/^Options=/s/^Options=//p}' "$KXKBRC" 2>/dev/null)
-
-has_option() {
-    echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1
+update_kxkbrc() {
+    if [ "$1" = add ]; then
+        if [ -n "$CURRENT" ]; then
+            new_opts="${CURRENT},${OPTION}"
+        else
+            new_opts="${OPTION}"
+        fi
+        sed -i '/^Options=/d' "$KXKBRC"
+        sed -i "/^\[Layout\]/a Options=$new_opts" "$KXKBRC"
+    else
+        local rest
+        rest=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
+        if [ -z "$rest" ]; then
+            sed -i '/^Options=/d' "$KXKBRC"
+        else
+            sed -i "s/^Options=.*/Options=$rest/" "$KXKBRC"
+        fi
+    fi
 }
 
 install_config
 
-if has_option; then
-    run_sudo systemctl stop keyd
-    if [ -n "$CURRENT" ]; then
-        new_opts=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
-        if [ -z "$new_opts" ]; then
-            sed -i '/^Options=/d' "$KXKBRC"
-        else
-            sed -i "s/^Options=.*/Options=$new_opts/" "$KXKBRC"
+ACTION="${1:-toggle}"
+
+CURRENT=$(sed -n '/^\[Layout\]/,/^\[/{/^Options=/s/^Options=//p}' "$KXKBRC" 2>/dev/null)
+has_option() { echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1; }
+
+case "$ACTION" in
+    on|--on)
+        if ! has_option; then
+            run_sudo systemctl start keyd
+            update_kxkbrc add
+            echo "Caps Lock ↔ Ctrl: ON"
         fi
-    fi
-    echo "Caps Lock ↔ Ctrl: OFF"
-else
-    run_sudo systemctl start keyd
-    if [ -n "$CURRENT" ]; then
-        new_opts="${CURRENT},${OPTION}"
-    else
-        new_opts="${OPTION}"
-    fi
-    sed -i '/^Options=/d' "$KXKBRC"
-    sed -i "/^\[Layout\]/a Options=$new_opts" "$KXKBRC"
-    echo "Caps Lock ↔ Ctrl: ON"
-fi
+        ;;
+    off|--off)
+        if has_option; then
+            run_sudo systemctl stop keyd
+            update_kxkbrc remove
+            echo "Caps Lock ↔ Ctrl: OFF"
+        fi
+        ;;
+    toggle|*)
+        if has_option; then
+            run_sudo systemctl stop keyd
+            update_kxkbrc remove
+            echo "Caps Lock ↔ Ctrl: OFF"
+        else
+            run_sudo systemctl start keyd
+            update_kxkbrc add
+            echo "Caps Lock ↔ Ctrl: ON"
+        fi
+        ;;
+esac
