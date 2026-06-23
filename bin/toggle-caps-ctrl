@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+KXKBRC="$HOME/.config/kxkbrc"
+OPTION="ctrl:swapcaps"
+
+CURRENT=$(sed -n '/^\[Layout\]/,/^\[/{/^Options=/s/^Options=//p}' "$KXKBRC" 2>/dev/null)
+
+has_option() {
+  echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1
+}
+
+if has_option; then
+  NEW=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
+  if [ -z "$NEW" ]; then
+    sed -i '/^Options=/d' "$KXKBRC"
+  else
+    sed -i "s/^Options=.*/Options=$NEW/" "$KXKBRC"
+  fi
+  kwriteconfig6 --file "$KXKBRC" --group Layout --key Options --delete --notify 2>/dev/null || true
+  echo "Swapped back (default positions)"
+else
+  if [ -n "$CURRENT" ]; then
+    NEW="${CURRENT},${OPTION}"
+  else
+    NEW="${OPTION}"
+  fi
+  sed -i '/^Options=/d' "$KXKBRC"
+  sed -i "/^\[Layout\]/a Options=$NEW" "$KXKBRC"
+  kwriteconfig6 --file "$KXKBRC" --group Layout --key Options "$NEW" --notify 2>/dev/null || true
+  echo "Swapped Caps Lock with Left Control"
+fi
