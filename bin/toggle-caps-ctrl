@@ -3,22 +3,38 @@
 KXKBRC="$HOME/.config/kxkbrc"
 OPTION="ctrl:swapcaps"
 
+SC_CAPSLOCK=0x3a
+SC_LCTRL=0x1d
+KC_CAPSLOCK=58
+KC_LCTRL=29
+
+SUDOERS_FILE="/etc/sudoers.d/setkeycodes"
+
 CURRENT=$(sed -n '/^\[Layout\]/,/^\[/{/^Options=/s/^Options=//p}' "$KXKBRC" 2>/dev/null)
 
 has_option() {
   echo "$CURRENT" | tr ',' '\n' | grep -Fx "$OPTION" >/dev/null 2>&1
 }
 
+apply_keycodes() {
+  if [ -f "$SUDOERS_FILE" ]; then
+    sudo -n setkeycodes "$1" "$2" "$3" "$4" 2>/dev/null
+  else
+    sudo setkeycodes "$1" "$2" "$3" "$4"
+  fi
+}
+
 if has_option; then
+  apply_keycodes "$SC_CAPSLOCK" "$KC_CAPSLOCK" "$SC_LCTRL" "$KC_LCTRL"
   NEW=$(echo "$CURRENT" | tr ',' '\n' | grep -Fvx "$OPTION" | paste -sd ',' -)
   if [ -z "$NEW" ]; then
     sed -i '/^Options=/d' "$KXKBRC"
   else
     sed -i "s/^Options=.*/Options=$NEW/" "$KXKBRC"
   fi
-  kwriteconfig6 --file "$KXKBRC" --group Layout --key Options --delete --notify 2>/dev/null || true
   echo "Swapped back (default positions)"
 else
+  apply_keycodes "$SC_CAPSLOCK" "$KC_LCTRL" "$SC_LCTRL" "$KC_CAPSLOCK"
   if [ -n "$CURRENT" ]; then
     NEW="${CURRENT},${OPTION}"
   else
@@ -26,6 +42,5 @@ else
   fi
   sed -i '/^Options=/d' "$KXKBRC"
   sed -i "/^\[Layout\]/a Options=$NEW" "$KXKBRC"
-  kwriteconfig6 --file "$KXKBRC" --group Layout --key Options "$NEW" --notify 2>/dev/null || true
   echo "Swapped Caps Lock with Left Control"
 fi

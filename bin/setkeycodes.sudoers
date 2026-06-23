@@ -1,0 +1,6 @@
+# Allow running setkeycodes without a password (used by toggle-caps-ctrl)
+#
+# Install with: sudo cp setkeycodes.sudoers /etc/sudoers.d/setkeycodes
+# Remove with:  sudo rm /etc/sudoers.d/setkeycodes
+%wheel ALL=(ALL) NOPASSWD: /usr/bin/setkeycodes
+%sudo ALL=(ALL) NOPASSWD: /usr/bin/setkeycodes
