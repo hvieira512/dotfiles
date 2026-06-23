@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=WhatsApp
+Comment=WhatsApp Web - mensagens e chamadas
+Exec=chromium --app=https://web.whatsapp.com
+Icon=whatsapp
+Terminal=false
+Type=Application
+Categories=Network;Chat;InstantMessaging;
+StartupNotify=true
+StartupWMClass=web.whatsapp.com
+MimeType=x-scheme-handler/whatsapp;
