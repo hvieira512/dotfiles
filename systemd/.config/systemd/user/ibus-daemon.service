@@ -1,0 +1,12 @@
+[Unit]
+Description=ibus daemon for keyboard input method
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ibus-daemon -rx
+Restart=always
+
+[Install]
+WantedBy=graphical-session.target
