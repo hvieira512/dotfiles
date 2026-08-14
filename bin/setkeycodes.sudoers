@@ -1,4 +1,0 @@
-# Allow running keyd and the toggle script without a password
-# Install with: sudo cp setkeycodes.sudoers /etc/sudoers.d/setkeycodes
-%wheel ALL=(ALL) NOPASSWD: /usr/bin/systemctl
-%wheel ALL=(ALL) NOPASSWD: /usr/bin/python3
