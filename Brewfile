@@ -1,3 +1,5 @@
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
 # Python code formatter
 brew "black"
 # Simple, fast and user-friendly alternative to find
