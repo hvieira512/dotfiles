@@ -2,10 +2,24 @@
 brew "bat"
 # Python code formatter
 brew "black"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
+# Load/unload environment variables based on $PWD
+brew "direnv"
+# More intuitive version of du in rust
+brew "dust"
+# Modern, maintained replacement for ls
+brew "eza"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
 # Command-line fuzzy finder written in Go
 brew "fzf"
+# Replace zsh's default completion menu with an fzf picker
+brew "fzf-tab"
+# GitHub command-line tool
+brew "gh"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
 # Interpreter for PostScript and PDF
 brew "ghostscript"
 # Open source programming language to build simple/reliable/efficient software
@@ -14,10 +28,14 @@ brew "go"
 brew "imagemagick"
 # Sort Python imports automatically
 brew "isort"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Package manager for the Lua programming language
 brew "luarocks"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
 # Incremental parsing library
 brew "tree-sitter"
 # Ambitious Vim-fork focused on extensibility and agility
@@ -34,6 +52,8 @@ brew "ripgrep"
 brew "starship"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Very fast implementation of tldr in Rust
+brew "tealdeer"
 # Terminal multiplexer
 brew "tmux"
 # Parser generator tool
@@ -42,6 +62,12 @@ brew "tree-sitter-cli"
 brew "wget"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Fish-like fast/unobtrusive autosuggestions for zsh
+brew "zsh-autosuggestions"
+# Feature-rich syntax highlighting for Zsh
+brew "zsh-fast-syntax-highlighting"
+# Zsh port of Fish shell's history search
+brew "zsh-history-substring-search"
 # Web browser focusing on privacy
 cask "brave-browser"
 # Anthropic's official Claude AI desktop app

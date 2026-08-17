@@ -1,0 +1,9 @@
+# Machine-specific zsh overrides. $ZDOTDIR is a stow symlink into this repo, so
+# a .zshrc.local created at ~/.config/zsh/ lands here — keep it untracked.
+zsh/.config/zsh/.zshrc.local
+
+# zsh writes these next to the config when something bypasses ZDOTDIR.
+zsh/.config/zsh/.zsh_history
+zsh/.config/zsh/*.zwc
+
+.DS_Store

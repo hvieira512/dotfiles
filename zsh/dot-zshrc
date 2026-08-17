@@ -1,6 +1,0 @@
-# Interactive shell config. PATH and other login-shell env lives in .zprofile.
-
-# starship keeps its config at ~/.config/starship.toml by default; this repo
-# stows it one level deeper, so point starship at it explicitly.
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"

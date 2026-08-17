@@ -1,0 +1,20 @@
+# Read by EVERY zsh — login shells, interactive shells and plain scripts alike.
+# Keep it small and free of side effects: anything slow or interactive here is
+# paid for by every `zsh -c` a tool shells out to.
+
+# XDG base directories. Set explicitly rather than relying on each tool's guess,
+# so caches and state stop landing directly in $HOME.
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+# The rest of the zsh config lives under XDG_CONFIG_HOME instead of $HOME. This
+# is the one file that cannot move, because zsh reads it before it knows where
+# ZDOTDIR points.
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# Set here rather than in .zshrc so that non-interactive callers — git, fc,
+# lazygit, anything shelling out — get nvim too, not the vi fallback.
+export EDITOR=nvim
+export VISUAL=nvim
