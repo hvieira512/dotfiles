@@ -62,6 +62,19 @@ bindkey -M viins '^H' backward-delete-char
 # Accept the whole autosuggestion without leaving the home row.
 bindkey -M viins '^F' autosuggest-accept
 
+# --- Shift+Enter inserts a newline instead of running the line ---------------
+# Requires `set -s extended-keys on` in tmux.conf: without it tmux collapses
+# Shift+Enter into a plain Enter and these bindings can never fire.
+#
+# Terminals encode the key two different ways and tmux's extended-keys-format
+# chooses between them, so bind both rather than depend on that setting:
+#   \e[13;2u     CSI u / kitty   (13 = CR, 2 = shift)
+#   \e[27;2;13~  xterm modifyOtherKeys
+_insert_newline() { LBUFFER+=$'\n' }
+zle -N _insert_newline
+bindkey -M viins '^[[13;2u'    _insert_newline
+bindkey -M viins '^[[27;2;13~' _insert_newline
+
 # --- completion menu --------------------------------------------------------
 # Inside the menu, hjkl navigates and ESC leaves without accepting.
 bindkey -M menuselect 'h' vi-backward-char
