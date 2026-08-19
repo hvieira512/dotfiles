@@ -1,7 +1,7 @@
 font-size = 14
 font-family = Liga SFMono Nerd Font
 theme = Rose Pine Moon
-background-opacity = 0.9
+# background-opacity = 0.9
 
 # macOS: hides the native titlebar while keeping the window borders and
 # rounded corners. `window-decoration = false` would strip those too.
