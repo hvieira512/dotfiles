@@ -1,5 +1,12 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    -- Pinned to master on purpose. The main branch is a rewrite that drops
+    -- this whole configs.setup() API — no ensure_installed, no auto_install,
+    -- highlighting started per-buffer with vim.treesitter.start() instead.
+    -- Without this, a :Lazy update would silently move to it and break the
+    -- config below. Master is in maintenance mode, so this buys time rather
+    -- than settling it; migrating is a job of its own.
+    branch = "master",
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
     dependencies = {
@@ -24,29 +31,34 @@ return {
             autotag = {
                 enable = true,
             },
-            -- ensure these language parsers are installed
+            -- Only the parsers auto_install cannot be relied on to fetch.
+            --
+            -- auto_install hangs off a FileType autocmd, so it only ever fires
+            -- for a language some buffer actually has as its filetype. That
+            -- covers ordinary languages — php, go, yaml — which is why they are
+            -- no longer listed here. It does not cover markdown_inline, which is
+            -- injected inside markdown buffers and is never a filetype of its
+            -- own, so opening a .md file would leave its highlighting partial.
+            --
+            -- The rest are what Neovim itself leans on: lua and vim for this
+            -- config, vimdoc for :help, query for .scm files, markdown for help
+            -- and render-markdown. Worth having ready rather than compiling on
+            -- first sight.
             ensure_installed = {
-                "json",
-                "javascript",
-                "typescript",
-                "tsx",
-                "yaml",
-                "html",
-                "css",
-                "markdown",
-                "markdown_inline",
-                "bash",
                 "lua",
                 "vim",
-                "dockerfile",
-                "gitignore",
+                "vimdoc",
                 "query",
-                "c",
-                "go",
-                "java",
+                "markdown",
+                "markdown_inline",
             },
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = true,
+            -- Install a parser the first time a file of that language is opened,
+            -- so a language missing from `ensure_installed` above still gets
+            -- highlighting without a manual :TSInstall. Needs the tree-sitter
+            -- CLI and a C compiler, both of which the Brewfile installs.
+            auto_install = true,
             incremental_selection = {
                 enable = true,
                 keymaps = {
