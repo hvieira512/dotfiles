@@ -1,7 +1,9 @@
 return {
     'saghen/blink.cmp',
     dependencies = 'rafamadriz/friendly-snippets',
-    version = 'v0.*',
+    -- Was pinned to v0.*, a whole major behind. Same trap as the treesitter
+    -- pin: it kept working only because the pin held it there.
+    version = '1.*',
     opts = {
         keymap = {
             preset = 'enter',
@@ -15,7 +17,7 @@ return {
         },
 
         appearance = {
-            use_nvim_cmp_as_default = true,
+            -- use_nvim_cmp_as_default was dropped in v1.
             nerd_font_variant = 'mono'
         },
 
