@@ -1,73 +1,78 @@
+-- nvim-treesitter, `main` branch.
+--
+-- Master is not an option any more: its README caps support at "Neovim 0.10 or
+-- 0.11 (Neovim 0.12 is not supported)", and its last commit was the one that
+-- wrote that cap down. On 0.12 `match[capture_id]` became a list of nodes
+-- rather than a single node, which makes master's own query directives call
+-- `node:range()` on a table -- the "attempt to call method 'range'" error that
+-- fired on every markdown buffer via render-markdown's injection parse.
+-- Master will not be fixed, so this migrates rather than pins.
+--
+-- What the rewrite drops, and where it went:
+--   * configs.setup{} -- gone entirely; the module no longer exists
+--   * highlight       -- vim.treesitter.start(), in the FileType autocmd below
+--   * indent          -- indentexpr, likewise
+--   * autotag         -- nvim-ts-autotag's own setup(), which master silently
+--                        ignored anyway when passed through configs.setup
+--   * auto_install    -- no replacement, hence the explicit parser list
+--   * incremental_selection (<C-space>) -- no replacement upstream
+--
+-- Queries and markdown injections now come from Neovim's own runtime; the
+-- plugin's copies of both are deleted on this branch.
 return {
     "nvim-treesitter/nvim-treesitter",
-    -- Pinned to master on purpose. The main branch is a rewrite that drops
-    -- this whole configs.setup() API — no ensure_installed, no auto_install,
-    -- highlighting started per-buffer with vim.treesitter.start() instead.
-    -- Without this, a :Lazy update would silently move to it and break the
-    -- config below. Master is in maintenance mode, so this buys time rather
-    -- than settling it; migrating is a job of its own.
-    branch = "master",
-    event = { "BufReadPre", "BufNewFile" },
+    branch = "main",
     build = ":TSUpdate",
+    -- Not lazy-loaded. The FileType autocmd has to be registered before the
+    -- first buffer's FileType fires, or that buffer opens unhighlighted.
+    lazy = false,
     dependencies = {
         "windwp/nvim-ts-autotag",
     },
     config = function()
-        local treesitter = require("nvim-treesitter.configs")
+        require("nvim-treesitter").setup({})
 
-        treesitter.setup({
-            -- enable syntax highlighting
-            highlight = {
-                enable = true,
-                -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                -- Using this option may slow down your editor, and you may see some duplicate highlights.
-                -- Instead of true it can also be a list of languages
-                additional_vim_regex_highlighting = false,
-            },
-            -- enable indentation
-            indent = { enable = true },
-            -- enable autotagging (w/ nvim-ts-autotag plugin)
-            autotag = {
-                enable = true,
-            },
-            -- Only the parsers auto_install cannot be relied on to fetch.
-            --
-            -- auto_install hangs off a FileType autocmd, so it only ever fires
-            -- for a language some buffer actually has as its filetype. That
-            -- covers ordinary languages — php, go, yaml — which is why they are
-            -- no longer listed here. It does not cover markdown_inline, which is
-            -- injected inside markdown buffers and is never a filetype of its
-            -- own, so opening a .md file would leave its highlighting partial.
-            --
-            -- The rest are what Neovim itself leans on: lua and vim for this
-            -- config, vimdoc for :help, query for .scm files, markdown for help
-            -- and render-markdown. Worth having ready rather than compiling on
-            -- first sight.
-            ensure_installed = {
-                "lua",
-                "vim",
-                "vimdoc",
-                "query",
-                "markdown",
-                "markdown_inline",
-            },
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = true,
-            -- Install a parser the first time a file of that language is opened,
-            -- so a language missing from `ensure_installed` above still gets
-            -- highlighting without a manual :TSInstall. Needs the tree-sitter
-            -- CLI and a C compiler, both of which the Brewfile installs.
-            auto_install = true,
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<C-space>",
-                    node_incremental = "<C-space>",
-                    scope_incremental = false,
-                    node_decremental = "<bs>",
-                },
-            },
+        -- auto_install is gone, so every language has to be named. php pulls
+        -- php_only in itself via the parser's `requires`.
+        require("nvim-treesitter").install({
+            "bash",
+            "c",
+            "css",
+            "dockerfile",
+            "gitignore",
+            "go",
+            "html",
+            "java",
+            "javascript",
+            "json",
+            "lua",
+            "markdown",
+            "markdown_inline",
+            "php",
+            "phpdoc",
+            "query",
+            "sql",
+            "tsx",
+            "typescript",
+            "vim",
+            "vimdoc",
+            "yaml",
+        })
+
+        require("nvim-ts-autotag").setup({})
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("VieiraTreesitter", { clear = true }),
+            callback = function(ev)
+                -- pcall: filetypes with no installed parser are the normal
+                -- case now that auto_install is gone (oil buffers, help before
+                -- vimdoc compiles, anything not listed above). They fall back
+                -- to regex syntax instead of erroring.
+                if not pcall(vim.treesitter.start, ev.buf) then
+                    return
+                end
+                vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end,
         })
     end,
 }
