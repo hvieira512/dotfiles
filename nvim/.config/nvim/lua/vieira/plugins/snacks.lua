@@ -27,7 +27,12 @@ return {
         -- words = { enabled = true },
     },
     keys = {
-        { "<leader>lg", function() Snacks.lazygit() end, desc = "Lazygit" },
-        { "<leader>z",  function() Snacks.zen() end,     desc = "Zen" },
+        { "<leader>lg", function() Snacks.lazygit() end,                desc = "Lazygit" },
+        { "<leader>z",  function() Snacks.zen() end,                    desc = "Zen" },
+        -- Replacing the two noice message keys worth keeping. noice had five
+        -- (last/all/history/dismiss/pick); snacks.notifier only distinguishes
+        -- history from dismiss, and history covers what last and all showed.
+        { "<leader>nh", function() Snacks.notifier.show_history() end,  desc = "[N]otification [H]istory" },
+        { "<leader>nd", function() Snacks.notifier.hide() end,          desc = "[N]otification [D]ismiss" },
     }
 }

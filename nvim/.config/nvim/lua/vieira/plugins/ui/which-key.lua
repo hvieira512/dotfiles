@@ -20,7 +20,7 @@ return {
             { "<leader>L",        group = "[L]azy" },
             { "<leader>H",        group = "[H]arpoon" },
             { "<leader>d",        group = "[D]iagnostic" },
-            { "<leader>cs",       group = "[C]ode [S]screenshot" },
+            { "<leader>n",        group = "[N]otifications" },
 
             -- Hide keymaps
             { "<leader><leader>", hidden = true },
