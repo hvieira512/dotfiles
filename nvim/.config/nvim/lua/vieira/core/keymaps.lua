@@ -48,7 +48,6 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "[S]plit [H]orizontally" })
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "[S]plit [V]ertically" })
 keymap.set("n", "<leader>s=", "<C-w>=", { desc = "[S]plit [E]qual" })
 keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit [Q]uit" })
-keymap.set("n", "<leader>sm", "<cmd>MaximizerToggle<CR>", { desc = "[S]plit [M]aximize" })
 
 -- move splits
 keymap.set("n", "<C-A-h>", "<cmd>wincmd H<CR>", { desc = "Move Split Left" })
