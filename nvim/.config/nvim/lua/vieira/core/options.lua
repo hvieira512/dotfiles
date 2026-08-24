@@ -7,6 +7,15 @@ vim.opt.showmode = false
 -- nerd font
 g.have_nerd_font = true
 
+-- Remote plugin hosts, switched off rather than left missing. Nothing here needs
+-- them, and unset they account for six of :checkhealth's warnings — noise that
+-- makes the real findings harder to spot. Turn one back on if a plugin ever
+-- asks for it.
+g.loaded_node_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_python3_provider = 0
+g.loaded_ruby_provider = 0
+
 -- line numbers
 opt.relativenumber = true
 opt.number = true
@@ -29,6 +38,22 @@ vim.opt.ignorecase = true -- ignore case when searching
 vim.opt.smartcase = true  -- override ignorecase if search pattern contains uppercase letters
 vim.opt.incsearch = true  -- show matches as you type
 vim.opt.hlsearch = false  -- do not highlight search matches
+
+-- Spell checking, English and Portuguese together, so a paragraph mixing the
+-- two is not underlined end to end. Neovim fetches the dictionaries itself the
+-- first time it needs them.
+--
+-- Only where prose actually lives: on globally it flags every identifier in
+-- every source file. z= suggests, zg adds a word, zw marks one wrong.
+opt.spelllang = "en,pt"
+vim.api.nvim_create_autocmd("FileType", {
+    desc = "Spell check prose, not code",
+    group = vim.api.nvim_create_augroup("VieiraSpell", { clear = true }),
+    pattern = { "markdown", "gitcommit", "text", "html", "htmldjango" },
+    callback = function()
+        vim.opt_local.spell = true
+    end,
+})
 
 -- show current line
 opt.cursorline = true
