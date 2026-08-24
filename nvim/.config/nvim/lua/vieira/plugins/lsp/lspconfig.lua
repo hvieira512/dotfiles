@@ -55,8 +55,14 @@ return {
                 opts.desc = "Go to next diagnostic"
                 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 
+                -- `:lsp restart`, not `:LspRestart`. Neovim 0.12 ships a
+                -- native `:lsp` command, and nvim-lspconfig's plugin file now
+                -- opens with `if vim.fn.exists(':lsp') == 2 then return end` —
+                -- so on 0.12 it defines none of LspStart/LspStop/LspRestart/
+                -- LspInfo/LspLog, and this keymap was calling a command that
+                -- no longer exists. Subcommands: disable, enable, restart, stop.
                 opts.desc = "Restart LSP"
-                vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<CR>", opts)
+                vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<CR>", opts)
 
                 opts.desc = "Info LSP"
                 vim.keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<CR>", opts)
@@ -104,6 +110,80 @@ return {
                 "less",
                 "php",
             },
+        })
+
+        -- hitcare builds every page out of `require` plus globals: $db and
+        -- $dbLIC come from includes/db.class.php, and $i18n is assigned inside
+        -- get_lang() in includes/resources.php, which requires the language
+        -- file that declares it global. Intelephense cannot follow a variable
+        -- across an include boundary, so undefinedVariables fires on the same
+        -- handful of globals in all 518 page files while catching no real typo.
+        -- The cost of switching it off is losing typo detection on genuinely
+        -- local PHP variables; the diagnostics that carry the weight here
+        -- (undefined functions, methods, classes) stay on.
+        vim.lsp.config("intelephense", {
+            settings = {
+                intelephense = {
+                    diagnostics = {
+                        -- Tri-state string, not a boolean: intelephense checks
+                        -- the value against {"on","local","off"} and silently
+                        -- keeps "on" for anything else, so `false` here was
+                        -- read as an invalid value and changed nothing.
+                        -- "local" is the one that fits: it drops P1008 in file
+                        -- scope, where the require'd globals live, and keeps it
+                        -- inside function bodies, where a typo is a real typo.
+                        undefinedVariables = "local",
+                    },
+                },
+            },
+        })
+
+        -- phpactor exists here for four features and nothing else. Every
+        -- capability it would share with intelephense is stripped at attach,
+        -- so PHP buffers never get two of anything: one completion source, one
+        -- hover, one set of diagnostics.
+        --
+        -- Diagnostics are switched off twice on purpose. init_options stops
+        -- phpactor computing them at all (diagnostic_outsource also stops it
+        -- shelling out to php-cs-fixer and phpstan per keystroke), and the
+        -- no-op publishDiagnostics handler drops anything that arrives anyway
+        -- — a config key renamed in a future phpactor release then costs
+        -- nothing instead of doubling every warning in the file.
+        vim.lsp.config("phpactor", {
+            init_options = {
+                ["language_server.diagnostics_on_update"] = false,
+                ["language_server.diagnostics_on_save"] = false,
+                ["language_server.diagnostics_on_open"] = false,
+                ["language_server.diagnostic_outsource"] = false,
+                ["language_server_worse_reflection.diagnostics.enable"] = false,
+                ["language_server_php_cs_fixer.show_diagnostics"] = false,
+                ["php_code_sniffer.show_diagnostics"] = false,
+            },
+            handlers = {
+                ["textDocument/publishDiagnostics"] = function() end,
+            },
+            on_init = function(client)
+                local capabilities = client.server_capabilities
+
+                -- Kept: rename, code actions, implementations, type definition.
+                -- Everything else belongs to intelephense, which is better at
+                -- it and is already answering.
+                capabilities.completionProvider = nil
+                capabilities.hoverProvider = nil
+                capabilities.signatureHelpProvider = nil
+                capabilities.definitionProvider = nil
+                capabilities.declarationProvider = nil
+                capabilities.referencesProvider = nil
+                capabilities.documentHighlightProvider = nil
+                capabilities.documentSymbolProvider = nil
+                capabilities.workspaceSymbolProvider = nil
+                capabilities.documentFormattingProvider = nil
+                capabilities.documentRangeFormattingProvider = nil
+                capabilities.inlayHintProvider = nil
+                capabilities.semanticTokensProvider = nil
+                -- Pull diagnostics, the other route to the same duplicates.
+                capabilities.diagnosticProvider = nil
+            end,
         })
 
         vim.lsp.config("lua_ls", {

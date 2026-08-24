@@ -39,6 +39,15 @@ return {
                     -- machine would have had PHP files opening with only the
                     -- emmet abbreviations attached and no diagnostics at all.
                     "intelephense",
+                    -- phpactor alongside intelephense, not instead of it:
+                    -- intelephense's rename, code actions, find-implementations
+                    -- and go-to-type-definition are premium-only, so it reports
+                    -- renameProvider=false and those keymaps do nothing.
+                    -- phpactor provides exactly those four for free. It is
+                    -- stripped down to them in lspconfig.lua so nothing it does
+                    -- overlaps with intelephense. Needs a PHP runtime on PATH
+                    -- (php 8.5 via brew here) — the phar runs on it.
+                    "phpactor",
                 },
                 -- v2 default, spelled out because it is the whole reason the
                 -- handler table in lspconfig.lua could be deleted: every server
@@ -49,12 +58,18 @@ return {
 
             require("mason-tool-installer").setup({
                 ensure_installed = {
-                    "prettier", -- prettier formatter
-                    "stylua",   -- lua formatter
-                    "isort",    -- python formatter
-                    "black",    -- python formatter
-                    "pylint",
-                    "eslint_d",
+                    "prettier",     -- js/ts/css/html/json/yaml/markdown formatter
+                    "stylua",       -- lua formatter
+                    "isort",        -- python import sorter
+                    "black",        -- python formatter
+                    "pylint",       -- python linter, run by nvim-lint
+                    "eslint_d",     -- js/ts linter, run by nvim-lint
+                    "php-cs-fixer", -- php formatter
+                    -- php linter. phpcs rather than phpstan: hitcare has no
+                    -- composer.json, and phpstan effectively wants one plus an
+                    -- installed dependency tree to analyse against. phpcs runs
+                    -- standalone against a coding standard.
+                    "phpcs",
                 },
             })
         end
