@@ -7,3 +7,6 @@ zsh/.config/zsh/.zsh_history
 zsh/.config/zsh/*.zwc
 
 .DS_Store
+
+# Karabiner rewrites karabiner.json itself and drops dated copies here.
+karabiner/.config/karabiner/automatic_backups/
