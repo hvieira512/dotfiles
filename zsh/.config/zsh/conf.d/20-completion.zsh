@@ -4,16 +4,17 @@
 
 autoload -Uz compinit
 
-# compinit's security audit stats every file in every fpath directory, which
-# costs real time on a brew install. Run the full check once a day and reuse the
-# cached dump the rest of the time. Delete the dump to force a rebuild after
+# -u skips compinit's security audit: on this machine it flags brew's
+# group-writable site-functions and stops startup with a y/n prompt. The audit
+# also stats every file in every fpath directory, which costs real time. Reuse
+# the cached dump the rest of the time; delete it to force a rebuild after
 # installing something that ships completions.
 _zcompdump="$XDG_CACHE_HOME/zsh/zcompdump"
 mkdir -p "${_zcompdump:h}"
 if [[ -n $_zcompdump(#qN.mh-24) ]]; then
   compinit -C -d "$_zcompdump"
 else
-  compinit -d "$_zcompdump"
+  compinit -u -d "$_zcompdump"
   # Compiling the dump makes the next startup load it as bytecode.
   [[ -f "$_zcompdump" && ( ! -f "$_zcompdump.zwc" || "$_zcompdump" -nt "$_zcompdump.zwc" ) ]] &&
     zcompile -R -- "$_zcompdump"
