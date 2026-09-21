@@ -1,0 +1,40 @@
+git:
+  diffRenderers:
+    - colorArg: always
+      # useConfig: false faz o lazygit ignorar o core.pager do git e usar esta
+      # linha. O tema e o syntax-theme aparecem aqui repetidos por causa disso —
+      # se os mudares em ~/.config/git/config, muda-os também aqui.
+      command: delta --paging=never --features=mellow-barbet --syntax-theme=rose-pine-moon
+      useConfig: false
+# Rosé Pine Moon, de github.com/rose-pine/lazygit (themes/rose-pine-moon.yml).
+# O lazygit não sabe incluir ficheiros, por isso o tema vive aqui dentro; para
+# actualizar, buscar o ficheiro de lá outra vez e substituir este bloco.
+gui:
+  theme:
+    activeBorderColor:
+      - "#3e8fb0"
+      - bold
+    inactiveBorderColor:
+      - "#6e6a86"
+    searchingActiveBorderColor:
+      - "#ea9a97"
+      - bold
+    optionsTextColor:
+      - "#9ccfd8"
+    selectedLineBgColor:
+      - "#3e8fb0"
+    inactiveViewSelectedLineBgColor:
+      - "#393552"
+      - bold
+    cherryPickedCommitFgColor:
+      - "#2a273f"
+    cherryPickedCommitBgColor:
+      - "#ea9a97"
+    markedBaseCommitFgColor:
+      - "#9ccfd8"
+    markedBaseCommitBgColor:
+      - "#f6c177"
+    unstagedChangesColor:
+      - "#eb6f92"
+    defaultFgColor:
+      - "#e0def4"
