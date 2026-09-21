@@ -54,6 +54,20 @@ alias brewup='brew update && brew upgrade && brew cleanup'
 # Rewrite the Brewfile from what's actually installed.
 alias brewdump='brew bundle dump --describe --force --file=~/dotfiles/Brewfile'
 
+# --- claude code --------------------------------------------------------------
+# Always start with the Claude in Chrome integration on, so Claude can drive the
+# Brave window that's already open — read the page, click, measure — without the
+# browser needing anything special. The extension is already installed.
+#
+# It has to be an alias because `--chrome` is a startup option: a session begun
+# without it can't turn it on later. The alternative was launching Brave with
+# `--remote-debugging-port=9222` for the chrome-devtools MCP, which only takes
+# effect at browser startup and so meant quitting the browser every time.
+#
+# zsh doesn't re-expand an alias over its own name, so this doesn't recurse, and
+# `claude --no-chrome` still opts out — the later flag wins.
+alias claude='claude --chrome'
+
 # --- misc -------------------------------------------------------------------
 alias path='print -l $path'
 alias ports='lsof -iTCP -sTCP:LISTEN -P -n'
