@@ -1,0 +1,27 @@
+[user]
+	name = Hugo Vieira
+	email = hugo.vieira2002@hotmail.com
+
+[core]
+	editor = nvim
+	# delta reescreve os diffs do git: realce de sintaxe, números de linha e
+	# realce das palavras alteradas dentro da linha.
+	pager = delta
+
+[interactive]
+	# Sem isto, o `git add -p` continuava a mostrar o diff cru do git.
+	diffFilter = delta --color-only
+
+# Os temas do delta, vendorizados de github.com/dandavison/delta. Ficam aqui em
+# vez de transcritos à mão para poderem ser actualizados com um curl, e para
+# trocar de tema ser mudar uma palavra no `features` abaixo. `delta
+# --list-syntax-themes` mostra os nomes.
+[include]
+	path = ~/.config/delta/themes.gitconfig
+
+[delta]
+	features = mellow-barbet
+	# O mellow-barbet traz base16; isto casa as cores de sintaxe com o resto da
+	# máquina, que é Rose Pine Moon no bat e no Ghostty. O tema vem da cache do
+	# bat, portanto depende de `bat cache --build` ter corrido.
+	syntax-theme = rose-pine-moon
