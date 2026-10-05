@@ -30,6 +30,8 @@ brew "imagemagick"
 brew "isort"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+# Lazier way to manage everything docker
+brew "lazydocker"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Package manager for the Lua programming language

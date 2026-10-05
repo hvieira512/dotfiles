@@ -1,0 +1,13 @@
+# lazydocker only takes ANSI names; Ghostty's Rose Pine Moon maps green to pine
+# and black to overlay, so this lands on the same colours as the lazygit theme.
+gui:
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - black
+    selectedLineBgColor:
+      - green
+    optionsTextColor:
+      - blue
