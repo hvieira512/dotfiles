@@ -1,0 +1,25 @@
+# superfile (spf). Only what differs from the defaults lives here; everything
+# else keeps the value documented at superfile.dev/configure/superfile-config.
+# ignore_missing_fields is what allows that — without it spf warns on every
+# launch about each default it had to fill in.
+ignore_missing_fields = true
+
+# Rosé Pine Moon, from theme/ next to this file. Upstream bundles a
+# rose-pine.toml, but it is the Main variant (base #191724) and a handful of
+# its colours are not from the palette at all.
+theme = "rose-pine-moon"
+
+# Ghostty is translucent and nvim, tmux and fzf already leave the background
+# alone. Without this spf paints a solid block of base across the window.
+transparent_background = true
+
+# Quit leaves the shell in the directory that was open. spf writes a `cd` line
+# to $XDG_STATE_HOME/superfile/lastdir on exit; the spf() wrapper in
+# zsh/conf.d/50-aliases.zsh sources it. Needs both halves.
+cd_on_quit = true
+
+# `z` inside spf opens the zoxide jump list.
+zoxide_support = true
+
+# brew keeps it current; the in-app GitHub check on launch is just noise.
+auto_check_update = false

@@ -52,6 +52,8 @@ brew "ripgrep"
 brew "starship"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+# Modern and pretty fancy file manager for the terminal
+brew "superfile"
 # Very fast implementation of tldr in Rust
 brew "tealdeer"
 # Terminal multiplexer

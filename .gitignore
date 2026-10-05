@@ -10,3 +10,9 @@ zsh/.config/zsh/*.zwc
 
 # Karabiner rewrites karabiner.json itself and drops dated copies here.
 karabiner/.config/karabiner/automatic_backups/
+
+# superfile writes its default hotkeys and every bundled theme into the config
+# dir on first run and again after each upgrade. Only the Moon theme is ours.
+superfile/.config/superfile/hotkeys.toml
+superfile/.config/superfile/theme/*
+!superfile/.config/superfile/theme/rose-pine-moon.toml

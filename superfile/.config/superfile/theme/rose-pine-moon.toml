@@ -1,0 +1,75 @@
+# Rosé Pine Moon for superfile — palette from rose-pine.dev/palette.
+#
+# Picks follow the rest of the machine: active borders are pine like lazygit,
+# the selected row is text on overlay like fzf's bg+, and the hotkey colour is
+# gold like the history-search hit. With transparent_background on, every *_bg
+# below except the two *_selected_bg is replaced by the terminal's own.
+#
+# Not loaded from upstream's rose-pine.toml because that is the Main variant.
+# spf rewrites every bundled theme into this folder after each upgrade, but
+# only files whose name it ships, so this one is left alone.
+
+###############################################################################
+#                           Code Syntax Highlighting                          #
+###############################################################################
+
+# Chroma style, github.com/alecthomas/chroma/tree/master/styles
+code_syntax_highlight = "rose-pine-moon"
+
+###############################################################################
+#                                 Base Colors                                 #
+###############################################################################
+
+#-- Full Screen
+full_screen_fg = "#e0def4" # text
+full_screen_bg = "#232136" # base
+
+#-- Gradient (process bar; exactly two colours)
+gradient_color = ["#3e8fb0", "#c4a7e7"] # pine → iris
+directory_icon_color = "#9ccfd8"         # foam
+
+#-- File Panel
+file_panel_fg = "#e0def4"                   # text
+file_panel_bg = "#232136"                   # base
+file_panel_border = "#44415a"               # highlight med
+file_panel_border_active = "#3e8fb0"        # pine
+file_panel_top_directory_icon = "#9ccfd8"   # foam
+file_panel_top_path = "#ea9a97"             # rose
+file_panel_item_selected_fg = "#c4a7e7"     # iris — marks items picked in select mode (v)
+file_panel_item_selected_bg = "#393552"     # overlay; the file panel paints its own bg over this
+
+#-- Footer
+footer_fg = "#e0def4"             # text
+footer_bg = "#232136"             # base
+footer_border = "#44415a"         # highlight med
+footer_border_active = "#3e8fb0"  # pine
+
+#-- Sidebar
+sidebar_fg = "#e0def4"                 # text
+sidebar_bg = "#232136"                 # base
+sidebar_title = "#9ccfd8"              # foam
+sidebar_border = "#44415a"             # highlight med
+sidebar_border_active = "#3e8fb0"      # pine
+sidebar_item_selected_fg = "#e0def4"   # text
+sidebar_item_selected_bg = "#393552"   # overlay
+sidebar_divider = "#6e6a86"            # muted
+
+#-- Modals
+modal_fg = "#e0def4"             # text
+modal_bg = "#2a273f"             # surface
+modal_border_active = "#3e8fb0"  # pine
+modal_cancel_fg = "#e0def4"      # text
+modal_cancel_bg = "#56526e"      # highlight high
+modal_confirm_fg = "#e0def4"     # text
+modal_confirm_bg = "#3e8fb0"     # pine
+
+#-- Help Menu
+help_menu_hotkey = "#f6c177"  # gold
+help_menu_title = "#9ccfd8"   # foam
+
+#-- Special
+cursor = "#c4a7e7"   # iris
+correct = "#9ccfd8"  # foam
+error = "#eb6f92"    # love
+hint = "#c4a7e7"     # iris
+cancel = "#6e6a86"   # muted
