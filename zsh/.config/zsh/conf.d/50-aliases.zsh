@@ -132,3 +132,22 @@ spf() {
   local last="$XDG_STATE_HOME/superfile/lastdir"
   [[ -f "$last" ]] && { source "$last"; rm -f -- "$last" }
 }
+
+# mqsub <topic> [jq-filter]: MQ_HOST and MQ_USER come from .zshrc.local, the
+# password from the Keychain (service mqsub, account MQ_USER).
+mqsub() {
+  local topic=$1 filter=${2:-.} pw
+  [[ -n $topic && -n $MQ_HOST && -n $MQ_USER ]] || {
+    print -u2 "usage: mqsub <topic> [jq-filter]  (needs MQ_HOST and MQ_USER, set them in \$ZDOTDIR/.zshrc.local)"
+    return 1
+  }
+  pw=$(security find-generic-password -s mqsub -a "$MQ_USER" -w 2>/dev/null) || {
+    print -u2 "mqsub: no password in the Keychain; run: security add-generic-password -s mqsub -a $MQ_USER -w"
+    return 1
+  }
+  mosquitto_sub -h "$MQ_HOST" -p "${MQ_PORT:-1883}" -u "$MQ_USER" -P "$pw" -v -t "$topic" |
+  while IFS=' ' read -r t payload; do
+    print -P -- "%F{cyan}${t//\%/%%}%f  %F{8}%D{%T}%f"
+    printf '%s\n' "$payload" | jq -C "$filter" 2>/dev/null || printf '%s\n' "$payload"
+  done
+}
