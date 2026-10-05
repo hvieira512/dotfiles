@@ -87,7 +87,8 @@ cask "font-sf-mono-nerd-font-ligaturized"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
 # Keyboard customiser (caps lock <-> left control, etc.)
-cask "karabiner-elements"
+# Only on the iMac: its PT keyboard has the § key these remaps exist for.
+cask "karabiner-elements" unless `hostname -s`.strip == "MacBook-Pro-de-Hugo"
 # Music streaming service
 cask "spotify"
 # Open-source code editor
