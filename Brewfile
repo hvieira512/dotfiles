@@ -107,7 +107,5 @@ cask "shottr"
 cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
-# Open-source code editor
-cask "visual-studio-code@insiders"
 # Native desktop client for WhatsApp
 cask "whatsapp"
