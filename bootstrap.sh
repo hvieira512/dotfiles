@@ -13,5 +13,6 @@ brew bundle --file=Brewfile
 for pkg in */; do stow "${pkg%/}"; done
 
 bat cache --build
+[ -f ~/.config/btop/btop.conf ] || printf 'color_theme = "rose-pine-moon"\ntheme_background = False\n' > ~/.config/btop/btop.conf
 [ -d ~/.config/tmux/plugins/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 ~/.config/tmux/plugins/tpm/bin/install_plugins

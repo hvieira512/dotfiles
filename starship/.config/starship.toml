@@ -1,0 +1,47 @@
+palette = "rose-pine-moon"
+
+[palettes.rose-pine-moon]
+muted = "#6e6a86"
+subtle = "#908caa"
+text = "#e0def4"
+love = "#eb6f92"
+gold = "#f6c177"
+rose = "#ea9a97"
+pine = "#3e8fb0"
+foam = "#9ccfd8"
+iris = "#c4a7e7"
+
+[character]
+success_symbol = "[❯](bold iris)"
+error_symbol = "[❯](bold love)"
+vimcmd_symbol = "[❮](bold foam)"
+
+[directory]
+style = "bold foam"
+
+[git_branch]
+style = "bold iris"
+
+[git_status]
+style = "bold gold"
+
+[cmd_duration]
+style = "subtle"
+
+[docker_context]
+style = "bold pine"
+
+[golang]
+style = "bold foam"
+
+[java]
+style = "bold rose"
+
+[nodejs]
+style = "bold pine"
+
+[php]
+style = "bold iris"
+
+[python]
+style = "bold gold"
