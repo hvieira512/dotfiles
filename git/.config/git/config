@@ -25,3 +25,6 @@
 	# máquina, que é Rose Pine Moon no bat e no Ghostty. O tema vem da cache do
 	# bat, portanto depende de `bat cache --build` ter corrido.
 	syntax-theme = rose-pine-moon
+
+[init]
+	defaultBranch = main
