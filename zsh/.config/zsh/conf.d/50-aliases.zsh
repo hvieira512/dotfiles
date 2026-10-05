@@ -126,11 +126,7 @@ extract() {
   esac
 }
 
-# superfile, landing the shell in the directory it was quit in. With cd_on_quit
-# on in its config, spf writes a `cd '<dir>'` line to this file on exit and
-# sourcing it is what moves the shell — a child process can't cd its parent.
-# Upstream's snippet hardcodes ~/Library/Application Support on macOS, but spf
-# follows XDG_STATE_HOME, which .zshenv sets.
+# cd into the directory spf was quit in (cd_on_quit in its config)
 spf() {
   command spf "$@"
   local last="$XDG_STATE_HOME/superfile/lastdir"
