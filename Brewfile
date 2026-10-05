@@ -4,6 +4,8 @@ brew "bat"
 brew "black"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
+# Dependency Manager for PHP
+brew "composer"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # More intuitive version of du in rust
@@ -38,12 +40,16 @@ brew "lazygit"
 brew "luarocks"
 # Polyglot runtime manager (asdf rust clone)
 brew "mise"
+# Message broker implementing the MQTT protocol
+brew "mosquitto"
 # Incremental parsing library
 brew "tree-sitter"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
 # It's not just a linter that annoys you!
 brew "pylint"
 # Interpreted, interactive, object-oriented programming language
@@ -62,6 +68,8 @@ brew "tealdeer"
 brew "tmux"
 # Parser generator tool
 brew "tree-sitter-cli"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
 # Internet file retriever
 brew "wget"
 # Shell extension to navigate your filesystem faster
@@ -91,9 +99,15 @@ cask "ghostty"
 # Keyboard customiser (caps lock <-> left control, etc.)
 # Only on the iMac: its PT keyboard has the § key these remaps exist for.
 cask "karabiner-elements" unless `hostname -s`.strip == "MacBook-Pro-de-Hugo"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Screenshot measurement and annotation tool
+cask "shottr"
 # Music streaming service
 cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
+# Open-source code editor
+cask "visual-studio-code@insiders"
 # Native desktop client for WhatsApp
 cask "whatsapp"

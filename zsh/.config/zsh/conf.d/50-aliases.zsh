@@ -51,8 +51,8 @@ alias dot='cd ~/dotfiles'
 alias zc='$EDITOR $ZDOTDIR'
 alias reload='exec zsh'
 alias brewup='brew update && brew upgrade && brew cleanup'
-# Rewrite the Brewfile from what's actually installed.
-alias brewdump='brew bundle dump --describe --force --file=~/dotfiles/Brewfile'
+# Installed here but not in the Brewfile. Lists only, removes nothing.
+alias brewdrift='brew bundle cleanup --file=~/dotfiles/Brewfile'
 
 # --- claude code --------------------------------------------------------------
 # Always start with the Claude in Chrome integration on, so Claude can drive the
