@@ -50,12 +50,12 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("ui-select")
 
-		keymap.set("n", "<leader><leader>", function()
-			builtin.find_files({ find_command = { "rg", "--files", "--hidden", "--no-ignore", "-g", "!.git" } })
-		end, { desc = "[F]ind [F]iles" })
-		keymap.set("n", "<leader>ff", function()
-			builtin.find_files({ find_command = { "rg", "--files", "--hidden", "--no-ignore", "-g", "!.git" } })
-		end, { desc = "[F]ind [F]iles" })
+		local find_files = function()
+			builtin.find_files({ find_command = { "rg", "--files", "--hidden", "-g", "!.git" } })
+		end
+
+		keymap.set("n", "<leader><leader>", find_files, { desc = "[F]ind [F]iles" })
+		keymap.set("n", "<leader>ff", find_files, { desc = "[F]ind [F]iles" })
 		keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "[F]ind [R]ecent Files" })
 		keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
 		keymap.set("n", "<leader>/", builtin.live_grep, { desc = "[F]ind [G]rep" })

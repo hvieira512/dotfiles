@@ -98,6 +98,10 @@ return {
             capabilities = require("blink.cmp").get_lsp_capabilities(),
         })
 
+        vim.lsp.config("clangd", {
+            cmd = { "clangd", "--background-index", "--clang-tidy" },
+        })
+
         vim.lsp.config("emmet_ls", {
             filetypes = {
                 "html",

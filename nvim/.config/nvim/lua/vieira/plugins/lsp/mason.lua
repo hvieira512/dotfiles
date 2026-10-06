@@ -35,6 +35,11 @@ return {
                     "emmet_ls",
                     "pyright",
                     "gopls",
+                    "clangd",
+                    -- eslint-lsp was the only server attaching to .js buffers
+                    -- and it does not answer textDocument/definition, so gd
+                    -- did nothing in JavaScript.
+                    "ts_ls",
                     -- Was installed by hand and never declared here, so a fresh
                     -- machine would have had PHP files opening with only the
                     -- emmet abbreviations attached and no diagnostics at all.
