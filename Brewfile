@@ -24,6 +24,8 @@ brew "gh"
 brew "git-delta"
 # Interpreter for PostScript and PDF
 brew "ghostscript"
+# Agent multiplexer that lives in your terminal
+brew "herdr"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Tools and libraries to manipulate images in select formats
