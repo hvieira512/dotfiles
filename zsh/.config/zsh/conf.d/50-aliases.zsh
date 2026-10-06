@@ -135,19 +135,32 @@ spf() {
   [[ -f "$last" ]] && { source "$last"; rm -f -- "$last" }
 }
 
-# mqsub <topic> [jq-filter]: MQ_HOST and MQ_USER come from .zshrc.local, the
-# password from the Keychain (service mqsub, account MQ_USER).
+# mqsub <topic> [jq-filter]: subscribe and pretty-print the JSON payloads.
+# MQ_HOST and MQ_USER come from .zshrc.local (git-ignored), MQ_PORT defaults to
+# 1883. The password is kept in the Keychain, so on a new machine run once:
+#   security add-generic-password -s mqsub -a "$MQ_USER" -w
 mqsub() {
   local topic=$1 filter=${2:-.} pw
-  [[ -n $topic && -n $MQ_HOST && -n $MQ_USER ]] || {
-    print -u2 "usage: mqsub <topic> [jq-filter]  (needs MQ_HOST and MQ_USER, set them in \$ZDOTDIR/.zshrc.local)"
+  [[ -n $topic ]] || {
+    print -u2 "usage: mqsub <topic> [jq-filter]"
+    return 1
+  }
+  [[ -n $MQ_HOST && -n $MQ_USER ]] || {
+    print -u2 "mqsub: set MQ_HOST and MQ_USER in \$ZDOTDIR/.zshrc.local"
     return 1
   }
   pw=$(security find-generic-password -s mqsub -a "$MQ_USER" -w 2>/dev/null) || {
     print -u2 "mqsub: no password in the Keychain; run: security add-generic-password -s mqsub -a $MQ_USER -w"
     return 1
   }
-  mosquitto_sub -h "$MQ_HOST" -p "${MQ_PORT:-1883}" -u "$MQ_USER" -P "$pw" -v -t "$topic" |
+  # -o takes the credentials from a file descriptor instead of argv. With -P the
+  # password sits in `ps` output for every user on the machine, for as long as
+  # the subscription runs, which defeats keeping it in the Keychain at all.
+  mosquitto_sub -o <(printf -- '-u %s\n-P %s\n' "$MQ_USER" "$pw") \
+    -h "$MQ_HOST" -p "${MQ_PORT:-1883}" -v -t "$topic" |
+  # ponytail: assumes one message per line, which is what the hub publishes. A
+  # payload containing a literal newline is read as a second message with a junk
+  # topic; mosquitto_sub -F with an explicit delimiter is the way out if it happens.
   while IFS=' ' read -r t payload; do
     print -P -- "%F{cyan}${t//\%/%%}%f  %F{8}%D{%T}%f"
     printf '%s\n' "$payload" | jq -C "$filter" 2>/dev/null || printf '%s\n' "$payload"
