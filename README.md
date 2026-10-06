@@ -22,7 +22,7 @@ theme cache and installs the tmux plugins. Safe to re-run.
 | `ghostty`                  | font, theme, translucency                               |
 | `git`                      | delta with the vendored themes, rose-pine syntax        |
 | `lazygit`, `lazydocker`    | matching borders and selection                          |
-| `starship`                 | default layout, palette only                            |
+| `starship`                 | two-column layout, rose-pine palette, semantic git      |
 | `bat`, `btop`, `superfile` | themes                                                  |
 | `claude`                   | notification hook and statusline script                 |
 | `karabiner`                | caps lock and `§` remaps for the PT keyboard, iMac only |
