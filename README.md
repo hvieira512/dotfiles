@@ -27,6 +27,14 @@ theme cache and installs the tmux plugins. Safe to re-run.
 | `claude`                   | notification hook and statusline script                 |
 | `karabiner`                | caps lock and `§` remaps for the PT keyboard, iMac only |
 
+## Two identities
+
+Personal is the global default, so a stray clone outside `~/dev` is never
+stamped with the work address. `~/dev` gets the work identity through an
+`includeIf`, with `~/dev/personal/` as the exception inside it. The work
+address lives in `git/.config/git/config.work`, untracked because this repo is
+public — copy `config.work.example` and fill it in.
+
 ## Two machines
 
 The Brewfile holds only what both machines use. Personal laptop apps stay out

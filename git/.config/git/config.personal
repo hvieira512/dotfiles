@@ -1,0 +1,4 @@
+# Reposição da identidade pessoal dentro de ~/dev/personal/, que de outra
+# forma herdava o email de trabalho do includeIf de ~/dev/.
+[user]
+	email = hugo.vieira2002@hotmail.com

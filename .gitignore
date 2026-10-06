@@ -24,3 +24,7 @@ nvim/.config/nvim/lazy-lock.json
 
 # written by btop on exit
 btop/.config/btop/btop.conf
+
+# Identidade de trabalho. O repo é público, por isso o email da empresa fica
+# fora; ver git/.config/git/config.work.example.
+git/.config/git/config.work

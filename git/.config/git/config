@@ -28,3 +28,17 @@
 
 [init]
 	defaultBranch = main
+
+# Duas identidades: a pessoal é o default, por isso um clone perdido fora de
+# ~/dev nunca fica carimbado com o email da empresa. A barra no fim de `gitdir:`
+# é obrigatória para apanhar os subdirectórios, e o mais específico vem no fim
+# porque ganha o último a ser lido.
+#
+# O config.work não é versionado (o repo é público); ver config.work.example.
+# Depois da migração, com tudo o que é trabalho em ~/dev/work/, isto colapsa
+# para um único includeIf e o config.personal deixa de ser preciso.
+[includeIf "gitdir:~/dev/"]
+	path = ~/.config/git/config.work
+
+[includeIf "gitdir:~/dev/personal/"]
+	path = ~/.config/git/config.personal

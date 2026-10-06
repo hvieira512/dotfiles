@@ -1,0 +1,5 @@
+# Modelo do config.work, que não é versionado por o repo ser público.
+# Copiar para config.work (fica em ~/.config/git/ pelo symlink do stow) e
+# preencher com o email da conta de trabalho.
+[user]
+	email = nome.apelido@empresa.com
