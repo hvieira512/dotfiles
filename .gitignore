@@ -6,6 +6,10 @@ zsh/.config/zsh/.zshrc.local
 zsh/.config/zsh/.zsh_history
 zsh/.config/zsh/*.zwc
 
+# Terminal.app's shell-session restore (/etc/zshrc_Apple_Terminal) dumps these
+# into $ZDOTDIR. Ghostty never triggers it; a stray Terminal.app launch does.
+zsh/.config/zsh/.zsh_sessions/
+
 .DS_Store
 
 # Karabiner rewrites karabiner.json itself and drops dated copies here.

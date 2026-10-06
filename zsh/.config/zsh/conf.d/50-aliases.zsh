@@ -47,12 +47,14 @@ alias ta='tmux attach || tmux new'
 alias tl='tmux list-sessions'
 
 # --- dotfiles and brew ------------------------------------------------------
-alias dot='cd ~/dotfiles'
+# $ZDOTDIR is a stow symlink into the repo; :A resolves it, :h:h:h is the root.
+export DOTFILES="${${ZDOTDIR:A}:h:h:h}"
+alias dot='cd $DOTFILES'
 alias zc='$EDITOR $ZDOTDIR'
 alias reload='exec zsh'
 alias brewup='brew update && brew upgrade && brew cleanup'
 # Installed here but not in the Brewfile. Lists only, removes nothing.
-alias brewdrift='brew bundle cleanup --file=~/dotfiles/Brewfile'
+alias brewdrift='brew bundle cleanup --file="$DOTFILES/Brewfile"'
 
 # --- claude code --------------------------------------------------------------
 # Always start with the Claude in Chrome integration on, so Claude can drive the
