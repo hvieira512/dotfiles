@@ -44,8 +44,10 @@ keymap.set("n", "<A-h>", "<cmd>vertical resize +2<CR>", opts)
 keymap.set("n", "<A-l>", "<cmd>vertical resize -2<CR>", opts)
 
 -- create splits
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "[S]plit [H]orizontally" })
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "[S]plit [V]ertically" })
+keymap.set("n", "<leader>sh", "<cmd>leftabove vsplit<CR>", { desc = "[S]plit Left" })
+keymap.set("n", "<leader>sj", "<cmd>rightbelow split<CR>", { desc = "[S]plit Down" })
+keymap.set("n", "<leader>sk", "<cmd>leftabove split<CR>", { desc = "[S]plit Up" })
+keymap.set("n", "<leader>sl", "<cmd>rightbelow vsplit<CR>", { desc = "[S]plit Right" })
 keymap.set("n", "<leader>s=", "<C-w>=", { desc = "[S]plit [E]qual" })
 keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit [Q]uit" })
 
