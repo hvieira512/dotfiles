@@ -74,3 +74,16 @@ key = "alt+l"
 type = "shell"
 command = "~/.config/herdr/resize.sh right"
 description = "resize right (vim/herdr)"
+
+# herdr-nvim: sidebar com nvim por tab e picker dos ficheiros que o agente tocou
+[[keys.command]]
+key = "prefix+e"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.toggle"
+description = "nvim sidebar"
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.pick-file"
+description = "open file from agent output"
