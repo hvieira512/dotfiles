@@ -21,7 +21,7 @@ MIN_SECONDS="${CLAUDE_NOTIFY_MIN_SECONDS:-30}"
 event="${1:-stop}"
 payload="$(cat)"
 
-# Dentro do herdr é ele que avisa ([ui.toast]); sair evita a notificação dupla.
+# Dentro do herdr avisa o plugin herdr-focus-notify; sair evita a notificação dupla.
 [ "${HERDR_ENV:-}" = 1 ] && exit 0
 
 log() {

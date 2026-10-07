@@ -1,7 +1,8 @@
 onboarding = false
 
 [ui.toast]
-delivery = "system"
+# in-app; as notificações de sistema clicáveis vêm do herdr-focus-notify
+delivery = "herdr"
 
 [ui.sound]
 enabled = true

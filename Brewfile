@@ -1,3 +1,4 @@
+tap "vjeantet/tap"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Python code formatter
@@ -26,6 +27,8 @@ brew "git-delta"
 brew "ghostscript"
 # Agent multiplexer that lives in your terminal
 brew "herdr"
+# Clickable macOS notifications, used by herdr-focus-notify
+brew "vjeantet/tap/alerter"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Tools and libraries to manipulate images in select formats
