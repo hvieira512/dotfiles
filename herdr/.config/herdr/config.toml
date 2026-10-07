@@ -1,7 +1,7 @@
 onboarding = false
 
 [ui.toast]
-# in-app; as notificações de sistema clicáveis vêm do herdr-focus-notify
+# só in-app; as notificações do macOS vêm do hook notify-macos.sh do Claude
 delivery = "herdr"
 
 [ui.sound]

@@ -21,9 +21,6 @@ MIN_SECONDS="${CLAUDE_NOTIFY_MIN_SECONDS:-30}"
 event="${1:-stop}"
 payload="$(cat)"
 
-# Dentro do herdr avisa o plugin herdr-focus-notify; sair evita a notificação dupla.
-[ "${HERDR_ENV:-}" = 1 ] && exit 0
-
 log() {
   [ -n "${CLAUDE_NOTIFY_DEBUG:-}" ] || return 0
   printf '%s [%s] %s\n' "$(date '+%F %T')" "$event" "$*" >> "$LOG"
@@ -84,6 +81,23 @@ subtitle="$(basename "$cwd")"
 click=""
 # Trazer o terminal à frente; o bundle id vem herdado do lançamento.
 [ -n "${__CFBundleIdentifier:-}" ] && click="open -b '${__CFBundleIdentifier}'"
+
+# Dentro do herdr: subtítulo "workspace › tab", e o clique foca também o painel.
+if [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ]; then
+  herdr="${HERDR_BIN_PATH:-herdr}"
+  pane="$("$herdr" pane get "$HERDR_PANE_ID" 2>/dev/null)"
+  # Já estás a olhar para este painel: não há nada a avisar.
+  if [ "$(printf '%s' "$pane" | jq -r '.result.pane.focused' 2>/dev/null)" = true ] &&
+     [ "$(osascript -e 'tell application "System Events" to get bundle identifier of first process whose frontmost is true' 2>/dev/null)" = "${__CFBundleIdentifier:-}" ]; then
+    log "calado: painel $HERDR_PANE_ID em foco"
+    exit 0
+  fi
+  ws="$("$herdr" workspace list 2>/dev/null | jq -r --arg id "${HERDR_WORKSPACE_ID:-}" '.result.workspaces[] | select(.workspace_id == $id) | .label' 2>/dev/null)"
+  tab="$("$herdr" tab get "${HERDR_TAB_ID:-}" 2>/dev/null | jq -r '.result.tab.label // empty' 2>/dev/null)"
+  [ -n "$ws" ] && subtitle="$ws${tab:+ › $tab}"
+  focus="HERDR_SOCKET_PATH=$(printf '%q' "${HERDR_SOCKET_PATH:-}") $(printf '%q' "$herdr") agent focus $(printf '%q' "$HERDR_PANE_ID")"
+  click="${click:+$click; }$focus"
+fi
 
 log "a publicar: [$subtitle] $message | click=${click:-nenhum}"
 if [ -n "$NOTIFIER" ] && [ -x "$NOTIFIER" ]; then
