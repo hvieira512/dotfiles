@@ -6,3 +6,6 @@ background-opacity = 0.9
 background-blur = macos-glass-regular
 
 macos-titlebar-style = hidden
+
+# Option esquerda é Alt (Alt+hjkl no herdr e no nvim); a direita continua a escrever os símbolos do teclado PT
+macos-option-as-alt = left

@@ -1,0 +1,76 @@
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = true
+
+[ui]
+status_indicators = "dots"
+
+[theme]
+name = "rose-pine"
+auto_switch = false
+
+# Rosé Pine Moon; sem sidebar_bg para a barra lateral ficar translúcida como o Ghostty
+[theme.custom]
+panel_bg      = "reset"
+active_row_bg = "#393552"
+selection_bg  = "#44415a"
+accent        = "#c4a7e7"
+red           = "#eb6f92"
+green         = "#9ccfd8"
+blue          = "#3e8fb0"
+yellow        = "#f6c177"
+
+[keys]
+switch_workspace = "prefix+shift+1..9"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (vim/herdr)"
+
+[[keys.command]]
+key = "alt+h"
+type = "shell"
+command = "~/.config/herdr/resize.sh left"
+description = "resize left (vim/herdr)"
+
+[[keys.command]]
+key = "alt+j"
+type = "shell"
+command = "~/.config/herdr/resize.sh down"
+description = "resize down (vim/herdr)"
+
+[[keys.command]]
+key = "alt+k"
+type = "shell"
+command = "~/.config/herdr/resize.sh up"
+description = "resize up (vim/herdr)"
+
+[[keys.command]]
+key = "alt+l"
+type = "shell"
+command = "~/.config/herdr/resize.sh right"
+description = "resize right (vim/herdr)"
