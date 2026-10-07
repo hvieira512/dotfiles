@@ -1,6 +1,6 @@
 # Keybindings. Loaded after 30-plugins.zsh so the widgets these bind to exist.
 
-# vi mode, to match nvim and the vim-style pane bindings in tmux.conf.
+# vi mode, to match nvim and the vim-style pane bindings in herdr.
 bindkey -v
 
 # zsh waits KEYTIMEOUT hundredths of a second after ESC to see whether an escape
@@ -63,11 +63,7 @@ bindkey -M viins '^H' backward-delete-char
 bindkey -M viins '^F' autosuggest-accept
 
 # --- Shift+Enter inserts a newline instead of running the line ---------------
-# Requires `set -s extended-keys on` in tmux.conf: without it tmux collapses
-# Shift+Enter into a plain Enter and these bindings can never fire.
-#
-# Terminals encode the key two different ways and tmux's extended-keys-format
-# chooses between them, so bind both rather than depend on that setting:
+# Terminals encode the key two different ways, so bind both:
 #   \e[13;2u     CSI u / kitty   (13 = CR, 2 = shift)
 #   \e[27;2;13~  xterm modifyOtherKeys
 _insert_newline() { LBUFFER+=$'\n' }

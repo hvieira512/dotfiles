@@ -41,11 +41,6 @@ alias gb='git branch'
 alias grs='git restore'
 alias lg='lazygit'
 
-# --- tmux -------------------------------------------------------------------
-alias t='tmux'
-alias ta='tmux attach || tmux new'
-alias tl='tmux list-sessions'
-
 # --- dotfiles and brew ------------------------------------------------------
 # $ZDOTDIR is a stow symlink into the repo; :A resolves it, :h:h:h is the root.
 export DOTFILES="${${ZDOTDIR:A}:h:h:h}"

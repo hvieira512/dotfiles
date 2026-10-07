@@ -66,8 +66,6 @@ brew "stow"
 brew "superfile"
 # Very fast implementation of tldr in Rust
 brew "tealdeer"
-# Terminal multiplexer
-brew "tmux"
 # Parser generator tool
 brew "tree-sitter-cli"
 # Extremely fast Python package installer and resolver, written in Rust

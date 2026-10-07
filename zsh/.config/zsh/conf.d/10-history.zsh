@@ -1,5 +1,5 @@
 # History. The zsh defaults are 2000 in memory / 1000 on disk with no dedup and
-# no sharing, which loses commands constantly across tmux panes.
+# no sharing, which loses commands constantly across panes.
 
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export HISTSIZE=100000   # entries kept in memory for this session
@@ -8,7 +8,7 @@ mkdir -p "${HISTFILE:h}"
 
 setopt extended_history       # store start timestamp and duration per entry
 setopt inc_append_history     # append as you go instead of only at shell exit
-setopt share_history          # commands from one tmux pane show up in the others
+setopt share_history          # commands from one pane show up in the others
 setopt hist_ignore_dups       # a command identical to the previous one isn't stored
 setopt hist_ignore_all_dups   # ...and a repeat elsewhere replaces the older copy
 setopt hist_expire_dups_first # when trimming to SAVEHIST, drop duplicates first

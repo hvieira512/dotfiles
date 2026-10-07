@@ -21,7 +21,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-ran
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons --colour=always {}'"
 export FZF_CTRL_R_OPTS="--reverse --preview 'echo {}' --preview-window=down:3:hidden:wrap --bind '?:toggle-preview'"
 
-# Rose Pine Moon, so the picker matches ghostty, tmux, bat and nvim. `bg:-1`
+# Rose Pine Moon, so the picker matches ghostty, herdr, bat and nvim. `bg:-1`
 # keeps the terminal background rather than painting over it.
 export FZF_DEFAULT_OPTS="
   --height=60% --layout=reverse --border=rounded --info=inline --cycle

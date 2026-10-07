@@ -10,14 +10,13 @@ cd ~/dotfiles && ./bootstrap.sh
 ```
 
 Installs Homebrew and the Brewfile, stows every package into `~`, builds the bat
-theme cache and installs the tmux and herdr plugins. Safe to re-run.
+theme cache and installs the herdr plugin. Safe to re-run.
 
 ## Packages
 
 | Package                    | What                                                    |
 | -------------------------- | ------------------------------------------------------- |
 | `zsh`                      | vi mode, fzf, zoxide, aliases, `mqsub`                  |
-| `tmux`                     | vim-style panes and copy mode, rose-pine bar            |
 | `herdr`                    | Ctrl+hjkl shared with nvim, rose-pine moon tab bar      |
 | `nvim`                     | lazy.nvim config, plugins float to latest               |
 | `ghostty`                  | font, theme, translucency                               |
