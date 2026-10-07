@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+# Notificações do macOS para os hooks do Claude Code. Recebe o evento em $1 e o
+# payload do hook em stdin.
+#
+# Publica através de ~/Applications/Claude Code Notifier.app, uma cópia do
+# terminal-notifier com o ícone do Ghostty: o macOS tira sempre o ícone do bundle
+# de quem publica, e não há API para o substituir em tempo de execução. O
+# rebuild-notifier.sh ao lado reconstrói essa app.
+#
+# Variáveis de ambiente:
+#   CLAUDE_NOTIFY_DEBUG=1        regista cada decisão em ~/.claude/hooks/notify.log
+#   CLAUDE_NOTIFY_MIN_SECONDS=N  turnos abaixo de N segundos não avisam (omissão: 30)
+#   CLAUDE_NOTIFY_ALWAYS=1       avisa mesmo com o painel à vista
+set -uo pipefail
+
+NOTIFIER="$HOME/Applications/Claude Code Notifier.app/Contents/MacOS/terminal-notifier"
+[ -x "$NOTIFIER" ] || NOTIFIER="$(command -v terminal-notifier 2>/dev/null || true)"
+STATE="${TMPDIR:-/tmp}/claude-notify-$(id -u)"
+LOG="$HOME/.claude/hooks/notify.log"
+MIN_SECONDS="${CLAUDE_NOTIFY_MIN_SECONDS:-30}"
+
+event="${1:-stop}"
+payload="$(cat)"
+
+# Dentro do herdr é ele que avisa ([ui.toast]); sair evita a notificação dupla.
+[ "${HERDR_ENV:-}" = 1 ] && exit 0
+
+log() {
+  [ -n "${CLAUDE_NOTIFY_DEBUG:-}" ] || return 0
+  printf '%s [%s] %s\n' "$(date '+%F %T')" "$event" "$*" >> "$LOG"
+}
+field() { printf '%s' "$payload" | jq -r "$1 // empty" 2>/dev/null; }
+
+mkdir -p "$STATE"
+key="$(field '.session_id')"
+[ -n "$key" ] || key="${TMUX_PANE:-sem-sessao}"
+key="${key//[^A-Za-z0-9_-]/_}"
+stamp="$STATE/$key.start"
+
+# UserPromptSubmit só marca o início, para o Stop poder dizer quanto demorou.
+if [ "$event" = "start" ]; then
+  date +%s > "$stamp"
+  log "inicio marcado"
+  exit 0
+fi
+
+# Duração do turno, em texto curto.
+human=""
+elapsed=""
+if [ -r "$stamp" ]; then
+  began="$(cat "$stamp" 2>/dev/null)"
+  case "$began" in ''|*[!0-9]*) began="" ;; esac
+  if [ -n "$began" ]; then
+    elapsed=$(( $(date +%s) - began ))
+    if   [ "$elapsed" -ge 3600 ]; then human="$(( elapsed / 3600 ))h$(( (elapsed % 3600) / 60 ))m"
+    elif [ "$elapsed" -ge 60 ];   then human="$(( elapsed / 60 ))m$(( elapsed % 60 ))s"
+    else                               human="${elapsed}s"
+    fi
+  fi
+fi
+[ "$event" = "stop" ] && rm -f "$stamp"
+
+# Verdadeiro quando o terminal está em primeiro plano e a mostrar este painel.
+a_olhar() {
+  [ -z "${CLAUDE_NOTIFY_ALWAYS:-}" ] || return 1
+  [ -n "${TMUX:-}" ] && [ -n "${TMUX_PANE:-}" ] || return 1
+  local front cliente
+  front="$(lsappinfo info -only bundleid "$(lsappinfo front 2>/dev/null)" 2>/dev/null | sed 's/.*"\(.*\)"$/\1/')"
+  [ -n "$front" ] && [ "$front" = "${__CFBundleIdentifier:-}" ] || return 1
+  for cliente in $(tmux list-clients -F '#{client_name}' 2>/dev/null); do
+    [ "$(tmux display-message -p -t "$cliente" '#{pane_id}' 2>/dev/null)" = "$TMUX_PANE" ] && return 0
+  done
+  return 1
+}
+
+# Cada evento decide o texto, o som, e se pode ser calado.
+por_duracao=0
+por_atencao=1
+case "$event" in
+  notification)
+    message="$(field '.message')"
+    [ -n "$message" ] || message="À espera de ti"
+    sound="Ping"; por_atencao=0
+    ;;
+  stop|*)
+    message="Acabou o turno${human:+ — $human}"
+    sound="Glass"; por_duracao=1
+    ;;
+esac
+
+if [ "$por_duracao" = 1 ] && [ -n "$elapsed" ] && [ "$elapsed" -lt "$MIN_SECONDS" ]; then
+  log "calado: turno de ${elapsed}s, abaixo dos ${MIN_SECONDS}s"
+  exit 0
+fi
+if [ "$por_atencao" = 1 ] && a_olhar; then
+  log "calado: o painel $TMUX_PANE está à vista"
+  exit 0
+fi
+
+cwd="$(field '.cwd')"
+[ -n "$cwd" ] || cwd="$PWD"
+subtitle="$(basename "$cwd")"
+click=""
+if [ -n "${TMUX:-}" ] && [ -n "${TMUX_PANE:-}" ]; then
+  # Sessão e janela distinguem vários Claude a correr ao mesmo tempo.
+  location="$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}:#{window_index}' 2>/dev/null)"
+  [ -n "$location" ] && subtitle="$subtitle ($location)"
+  # O id da sessão evita citar nomes que possam trazer aspas ou espaços.
+  session_id="$(tmux display-message -p -t "$TMUX_PANE" '#{session_id}' 2>/dev/null)"
+  # Caminho absoluto: o -execute corre com um PATH mínimo, sem /opt/homebrew/bin.
+  tmux_bin="$(command -v tmux 2>/dev/null || true)"
+  if [ -n "$tmux_bin" ]; then
+    click="'$tmux_bin' select-window -t '$TMUX_PANE' \; select-pane -t '$TMUX_PANE'"
+    [ -n "$session_id" ] && click="$click \; switch-client -t '$session_id'"
+  fi
+fi
+# Trazer o terminal à frente; o bundle id vem herdado do lançamento.
+[ -n "${__CFBundleIdentifier:-}" ] && click="open -b '${__CFBundleIdentifier}'${click:+; $click}"
+
+log "a publicar: [$subtitle] $message | click=${click:-nenhum}"
+if [ -n "$NOTIFIER" ] && [ -x "$NOTIFIER" ]; then
+  args=(-title "Claude Code" -subtitle "$subtitle" -message "$message"
+        -sound "$sound" -group "claude-$key-$event")
+  [ -n "$click" ] && args+=(-execute "$click")
+  "$NOTIFIER" "${args[@]}" >/dev/null 2>&1
+  log "terminal-notifier saiu com $?"
+else
+  osascript -e "display notification \"${message//\"/\\\"}\" with title \"Claude Code\" subtitle \"${subtitle//\"/\\\"}\" sound name \"$sound\"" >/dev/null 2>&1
+  log "osascript (sem terminal-notifier) saiu com $?"
+fi
+exit 0
