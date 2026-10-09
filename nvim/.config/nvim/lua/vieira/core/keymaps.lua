@@ -37,11 +37,18 @@ keymap.set("v", ">", ">gv", opts)
 -- keep last yanked after pasting
 keymap.set("v", "p", '"_dP', opts)
 
--- resize splits with alt+hjkl
-keymap.set("n", "<A-k>", "<cmd>resize -2<CR>", opts)
-keymap.set("n", "<A-j>", "<cmd>resize +2<CR>", opts)
-keymap.set("n", "<A-h>", "<cmd>vertical resize +2<CR>", opts)
-keymap.set("n", "<A-l>", "<cmd>vertical resize -2<CR>", opts)
+-- resize splits with alt+hjkl; with no split on that axis, resize the herdr pane
+local function resize(cmd, dir, a, b)
+    if (vim.fn.winnr(a) == vim.fn.winnr() and vim.fn.winnr(b) == vim.fn.winnr()) and vim.env.HERDR_PANE_ID then
+        vim.system({ vim.env.HERDR_BIN_PATH or "herdr", "pane", "resize", "--direction", dir, "--pane", vim.env.HERDR_PANE_ID })
+    else
+        vim.cmd(cmd)
+    end
+end
+keymap.set("n", "<A-k>", function() resize("resize -2", "up", "k", "j") end, opts)
+keymap.set("n", "<A-j>", function() resize("resize +2", "down", "k", "j") end, opts)
+keymap.set("n", "<A-h>", function() resize("vertical resize +2", "left", "h", "l") end, opts)
+keymap.set("n", "<A-l>", function() resize("vertical resize -2", "right", "h", "l") end, opts)
 
 -- create splits
 keymap.set("n", "<leader>sh", "<cmd>leftabove vsplit<CR>", { desc = "[S]plit Left" })
