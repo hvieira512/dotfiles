@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
-# Notificações do macOS para os hooks do Claude Code. Recebe o evento em $1 e o
-# payload do hook em stdin.
-#
-# Publica através de ~/Applications/Claude Code Notifier.app, uma cópia do
-# terminal-notifier com o ícone do Ghostty: o macOS tira sempre o ícone do bundle
-# de quem publica, e não há API para o substituir em tempo de execução. O
-# rebuild-notifier.sh ao lado reconstrói essa app.
-#
-# Variáveis de ambiente:
-#   CLAUDE_NOTIFY_DEBUG=1        regista cada decisão em ~/.claude/hooks/notify.log
-#   CLAUDE_NOTIFY_MIN_SECONDS=N  turnos abaixo de N segundos não avisam (omissão: 30)
+# Notificações dos hooks do Claude Code: evento em $1, payload em stdin.
+# CLAUDE_NOTIFY_DEBUG=1 regista em notify.log; CLAUDE_NOTIFY_MIN_SECONDS (30)
+# cala turnos mais curtos.
 set -uo pipefail
 
+# Notifier.app: terminal-notifier com o ícone do Ghostty; o macOS mostra
+# sempre o ícone do bundle que publica.
 NOTIFIER="$HOME/Applications/Claude Code Notifier.app/Contents/MacOS/terminal-notifier"
 [ -x "$NOTIFIER" ] || NOTIFIER="$(command -v terminal-notifier 2>/dev/null || true)"
 STATE="${TMPDIR:-/tmp}/claude-notify-$(id -u)"
@@ -33,6 +27,7 @@ key="$(field '.session_id')"
 key="${key//[^A-Za-z0-9_-]/_}"
 stamp="$STATE/$key.start"
 
+# --- duração do turno -------------------------------------------------------
 # UserPromptSubmit só marca o início, para o Stop poder dizer quanto demorou.
 if [ "$event" = "start" ]; then
   date +%s > "$stamp"
@@ -40,7 +35,6 @@ if [ "$event" = "start" ]; then
   exit 0
 fi
 
-# Duração do turno, em texto curto.
 human=""
 elapsed=""
 if [ -r "$stamp" ]; then
@@ -56,7 +50,7 @@ if [ -r "$stamp" ]; then
 fi
 [ "$event" = "stop" ] && rm -f "$stamp"
 
-# Cada evento decide o texto, o som, e se pode ser calado.
+# --- mensagem ---------------------------------------------------------------
 por_duracao=0
 case "$event" in
   notification)
@@ -75,18 +69,19 @@ if [ "$por_duracao" = 1 ] && [ -n "$elapsed" ] && [ "$elapsed" -lt "$MIN_SECONDS
   exit 0
 fi
 
+# --- destino do clique ------------------------------------------------------
 cwd="$(field '.cwd')"
 [ -n "$cwd" ] || cwd="$PWD"
 subtitle="$(basename "$cwd")"
 click=""
-# Trazer o terminal à frente; o bundle id vem herdado do lançamento.
+# O bundle id do terminal vem herdado do lançamento.
 [ -n "${__CFBundleIdentifier:-}" ] && click="open -b '${__CFBundleIdentifier}'"
 
-# Dentro do herdr: subtítulo "workspace › tab", e o clique foca também o painel.
+# --- herdr ------------------------------------------------------------------
 if [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ]; then
   herdr="${HERDR_BIN_PATH:-herdr}"
   pane="$("$herdr" pane get "$HERDR_PANE_ID" 2>/dev/null)"
-  # Já estás a olhar para este painel: não há nada a avisar.
+  # Calado se já estás a olhar para este painel.
   if [ "$(printf '%s' "$pane" | jq -r '.result.pane.focused' 2>/dev/null)" = true ] &&
      [ "$(osascript -e 'tell application "System Events" to get bundle identifier of first process whose frontmost is true' 2>/dev/null)" = "${__CFBundleIdentifier:-}" ]; then
     log "calado: painel $HERDR_PANE_ID em foco"
@@ -99,6 +94,7 @@ if [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ]; then
   click="${click:+$click; }$focus"
 fi
 
+# --- publicar ---------------------------------------------------------------
 log "a publicar: [$subtitle] $message | click=${click:-nenhum}"
 if [ -n "$NOTIFIER" ] && [ -x "$NOTIFIER" ]; then
   args=(-title "Claude Code" -subtitle "$subtitle" -message "$message"
