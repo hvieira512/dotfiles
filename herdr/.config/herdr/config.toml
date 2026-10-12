@@ -30,6 +30,11 @@ switch_workspace = "prefix+shift+1..9"
 # splits como no tmux
 split_vertical = "prefix+%"
 split_horizontal = 'prefix+"'
+# prefix+shift+hjkl passa pelo move.sh (troca ou move o pane); os defaults ficam livres
+swap_pane_left = ""
+swap_pane_down = ""
+swap_pane_up = ""
+swap_pane_right = ""
 
 [[keys.command]]
 key = "ctrl+h"
@@ -78,6 +83,30 @@ key = "alt+l"
 type = "shell"
 command = "~/.config/herdr/resize.sh right"
 description = "resize right (vim/herdr)"
+
+[[keys.command]]
+key = "prefix+shift+h"
+type = "shell"
+command = "~/.config/herdr/move.sh left"
+description = "swap or move pane left"
+
+[[keys.command]]
+key = "prefix+shift+j"
+type = "shell"
+command = "~/.config/herdr/move.sh down"
+description = "swap or move pane down"
+
+[[keys.command]]
+key = "prefix+shift+k"
+type = "shell"
+command = "~/.config/herdr/move.sh up"
+description = "swap or move pane up"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "shell"
+command = "~/.config/herdr/move.sh right"
+description = "swap or move pane right"
 
 # herdr-nvim: sidebar com nvim por tab e picker dos ficheiros que o agente tocou
 [[keys.command]]
