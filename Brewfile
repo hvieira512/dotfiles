@@ -20,6 +20,8 @@ brew "fzf"
 brew "fzf-tab"
 # GitHub command-line tool
 brew "gh"
+# GitLab command-line tool
+brew "glab"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
 # Interpreter for PostScript and PDF
