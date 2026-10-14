@@ -43,6 +43,18 @@ return {
         local phpcs = lint.linters.phpcs
         phpcs.args = vim.list_extend(vim.deepcopy(phpcs.args), { "-d", "memory_limit=512M" })
 
+        -- In monorepos eslint lives only in each app, not at the root where nvim
+        -- was opened. Run from the nearest eslint.config.* so eslint_d picks
+        -- the app's own eslint instead of its bundled one (which broke
+        -- havicare's eslint-config-next with "Failed to patch ESLint").
+        local function try_lint()
+            lint.try_lint(nil, {
+                cwd = vim.fs.root(0, {
+                    "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs", "eslint.config.ts",
+                }),
+            })
+        end
+
         -- Lint after writing and on leaving insert, rather than on every
         -- keystroke — these shell out to real processes.
         vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
@@ -50,12 +62,10 @@ return {
             callback = function()
                 -- try_lint is a no-op for filetypes with no linter listed, and
                 -- silently does nothing if the executable is missing.
-                lint.try_lint()
+                try_lint()
             end,
         })
 
-        vim.keymap.set("n", "<leader>ll", function()
-            lint.try_lint()
-        end, { desc = "[L]int this buffer" })
+        vim.keymap.set("n", "<leader>ll", try_lint, { desc = "[L]int this buffer" })
     end,
 }
