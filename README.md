@@ -19,6 +19,7 @@ theme cache and installs the herdr plugin. Safe to re-run.
 | `zsh`                      | vi mode, fzf, zoxide, aliases, `mqsub`                  |
 | `herdr`                    | Ctrl+hjkl shared with nvim, rose-pine moon tab bar      |
 | `nvim`                     | lazy.nvim config, plugins float to latest               |
+| `ideavim`                  | nvim keymaps and options for DataGrip                   |
 | `ghostty`                  | font, theme, translucency                               |
 | `git`                      | delta with the vendored themes, rose-pine syntax        |
 | `lazygit`, `lazydocker`    | matching borders and selection                          |

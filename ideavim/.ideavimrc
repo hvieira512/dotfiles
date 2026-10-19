@@ -1,0 +1,87 @@
+let mapleader = " "
+
+" options.lua
+set number relativenumber
+set ignorecase smartcase incsearch nohlsearch
+set scrolloff=10 sidescrolloff=10
+set timeoutlen=300
+set clipboard+=unnamedplus,ideaput
+set ideajoin
+set visualbell
+
+" plugins: mini.surround (ys/ds/cs/yss/S), mini.ai (aa/ia, aq/ab), yank highlight, gc
+set surround
+set argtextobj
+set mini-ai
+set highlightedyank
+set commentary
+
+" keymaps.lua
+nnoremap Q <nop>
+nnoremap + <C-a>
+nnoremap - <C-x>
+nnoremap x "_x
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap <C-a> ggVG
+vnoremap J <Action>(MoveLineDown)
+vnoremap K <Action>(MoveLineUp)
+vnoremap < <gv
+vnoremap > >gv
+vnoremap p "_dP
+
+" splits
+nnoremap <leader>e  <Action>(ActivateDatabaseToolWindow)
+nnoremap <leader>sl <Action>(SplitVertically)
+nnoremap <leader>sj <Action>(SplitHorizontally)
+nnoremap <leader>sq <Action>(Unsplit)
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <A-h> <Action>(StretchSplitToLeft)
+nnoremap <A-j> <Action>(StretchSplitToBottom)
+nnoremap <A-k> <Action>(StretchSplitToTop)
+nnoremap <A-l> <Action>(StretchSplitToRight)
+
+" telescope
+nnoremap <leader><leader> <Action>(GotoFile)
+nnoremap <leader>ff <Action>(GotoFile)
+nnoremap <leader>fr <Action>(RecentFiles)
+nnoremap <leader>/  <Action>(FindInPath)
+nnoremap <leader>fs <Action>(GotoSymbol)
+nnoremap <leader>fk <Action>(GotoAction)
+nnoremap <leader>ft <Action>(ActivateTODOToolWindow)
+
+" lsp
+nnoremap gd <Action>(GotoDeclaration)
+nnoremap gD <Action>(GotoDeclaration)
+nnoremap gR <Action>(FindUsages)
+nnoremap gi <Action>(GotoImplementation)
+nnoremap gt <Action>(GotoTypeDeclaration)
+nnoremap K  <Action>(QuickJavaDocumentation)
+nnoremap <leader>ca <Action>(ShowIntentionActions)
+vnoremap <leader>ca <Action>(ShowIntentionActions)
+nnoremap <leader>cr <Action>(RenameElement)
+nnoremap <leader>d  <Action>(ShowErrorDescription)
+nnoremap <leader>dd <Action>(ActivateProblemsViewToolWindow)
+nnoremap [d <Action>(GotoPreviousError)
+nnoremap ]d <Action>(GotoNextError)
+
+" git, harpoon (bookmarks with mnemonic), zen
+nnoremap <leader>gp <Action>(VcsShowCurrentChangeMarker)
+nnoremap <leader>gb <Action>(Annotate)
+nnoremap <leader>lg <Action>(ActivateCommitToolWindow)
+nnoremap <leader>h  <Action>(ToggleBookmarkWithMnemonic)
+nnoremap <leader>H  <Action>(ShowBookmarks)
+nnoremap <leader>1  <Action>(GotoBookmark1)
+nnoremap <leader>2  <Action>(GotoBookmark2)
+nnoremap <leader>3  <Action>(GotoBookmark3)
+nnoremap <leader>4  <Action>(GotoBookmark4)
+nnoremap <leader>5  <Action>(GotoBookmark5)
+nnoremap <leader>6  <Action>(GotoBookmark6)
+nnoremap <leader>z  <Action>(ToggleZenMode)
+
+sethandler <C-a> <C-d> <C-u> <C-h> <C-j> <C-k> <C-l> a:vim
