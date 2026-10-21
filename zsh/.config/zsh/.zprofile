@@ -16,6 +16,12 @@ export PATH="$HOME/.local/bin:$PATH"
 # otherwise. Left at the default so existing module downloads stay put.
 export PATH="$HOME/go/bin:$PATH"
 
+# Android: JDK 21 for Gradle, and the SDK where brew's android-commandlinetools
+# puts it. sdkmanager installs platform-tools and the emulator under it.
+export JAVA_HOME="$(/usr/libexec/java_home -v 21 2>/dev/null)"
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+
 # Less: keep colour, don't clear the screen on exit, and treat a short file as
 # not worth paging at all.
 export LESS='--RAW-CONTROL-CHARS --no-init --quit-if-one-screen --mouse'

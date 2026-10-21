@@ -82,6 +82,9 @@ brew "zsh-autosuggestions"
 brew "zsh-fast-syntax-highlighting"
 # Zsh port of Fish shell's history search
 brew "zsh-history-substring-search"
+# Android SDK command-line tools (sdkmanager, avdmanager). The SDK packages
+# themselves are installed with sdkmanager, see the Android block in .zprofile.
+cask "android-commandlinetools"
 # Web browser focusing on privacy
 cask "brave-browser"
 # Anthropic's official Claude AI desktop app
@@ -107,7 +110,13 @@ cask "raycast"
 cask "shottr"
 # Music streaming service
 cask "spotify"
+# JDK 21 for Gradle/AGP, which don't support newer JDKs yet. Its pkg installer
+# needs sudo, so run `brew install --cask temurin@21` by hand.
+cask "temurin@21"
 # Open-source code editor
 cask "visual-studio-code"
 # Native desktop client for WhatsApp
 cask "whatsapp"
+# Xcode: installed by hand from a developer.apple.com .xip, because the App
+# Store one needs a newer macOS. Then `sudo xcode-select -s /Applications/Xcode.app`
+# and `xcodebuild -downloadPlatform iOS -architectureVariant arm64`.
