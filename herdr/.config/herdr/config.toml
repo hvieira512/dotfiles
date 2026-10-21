@@ -27,9 +27,6 @@ yellow        = "#f6c177"
 
 [keys]
 switch_workspace = "prefix+shift+1..9"
-# splits como no tmux
-split_vertical = "prefix+%"
-split_horizontal = 'prefix+"'
 # prefix+shift+hjkl passa pelo move.sh (troca ou move o pane); os defaults ficam livres
 swap_pane_left = ""
 swap_pane_down = ""
