@@ -157,7 +157,9 @@ mqsub() {
   # payload containing a literal newline is read as a second message with a junk
   # topic; mosquitto_sub -F with an explicit delimiter is the way out if it happens.
   while IFS=' ' read -r t payload; do
-    print -P -- "%F{cyan}${t//\%/%%}%f  %F{8}%D{%T}%f"
+    # The hub ends payloads with a newline, which arrives as an empty line.
+    [[ -n $t ]] || continue
+    print -P -- "%F{cyan}${t//\%/%%}%f  %F{8}%D{%F %T}%f"
     printf '%s\n' "$payload" | jq -C "$filter" 2>/dev/null || printf '%s\n' "$payload"
   done
 }
