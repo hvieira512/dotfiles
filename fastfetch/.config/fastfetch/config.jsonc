@@ -1,0 +1,33 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  // Shiny Charizard, official Pokémon artwork (© Nintendo / Game Freak / The
+  // Pokémon Company). Not in this public repo; bootstrap.sh downloads it
+  // and renders it to braille with chafa.
+  "logo": {
+    "type": "file-raw",
+    "source": "~/.local/share/fastfetch/charizard.txt",
+    "width": 40,
+    "padding": { "top": 0, "right": 3 }
+  },
+  // rose-pine moon: iris keys, love title
+  "display": {
+    "separator": "  ",
+    "color": { "keys": "#c4a7e7", "title": "#eb6f92", "separator": "#6e6a86" },
+    "key": { "width": 8 }
+  },
+  // 16-line logo, 8 lines of info: 4 breaks centre them
+  "modules": [
+    "break",
+    "break",
+    "break",
+    "break",
+    "title",
+    "os",
+    "host",
+    "cpu",
+    "memory",
+    { "type": "disk", "key": "Disk", "folders": "/" },
+    "uptime",
+    "shell"
+  ]
+}

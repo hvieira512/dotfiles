@@ -25,6 +25,7 @@ theme cache and installs the herdr plugin. Safe to re-run.
 | `lazygit`, `lazydocker`    | matching borders and selection                          |
 | `starship`                 | two-column layout, rose-pine palette, semantic git      |
 | `bat`, `btop`, `superfile` | themes                                                  |
+| `fastfetch`                | braille shiny Charizard on every new shell              |
 | `claude`                   | notification hook and statusline script                 |
 | `karabiner`                | caps lock and `§` remaps for the PT keyboard, iMac only |
 

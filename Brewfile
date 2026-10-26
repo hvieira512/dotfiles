@@ -4,6 +4,8 @@ brew "bat"
 brew "black"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
+# Terminal graphics; renders the fastfetch logo to ASCII
+brew "chafa"
 # Dependency Manager for PHP
 brew "composer"
 # Load/unload environment variables based on $PWD
@@ -14,6 +16,8 @@ brew "dust"
 brew "eza"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
+# Neofetch-style system info, shown on every new shell
+brew "fastfetch"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # Replace zsh's default completion menu with an fzf picker
