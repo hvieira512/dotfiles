@@ -4,8 +4,6 @@ brew "bat"
 brew "black"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
-# Terminal graphics; renders the fastfetch logo to ASCII
-brew "chafa"
 # Dependency Manager for PHP
 brew "composer"
 # Load/unload environment variables based on $PWD
