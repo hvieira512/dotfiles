@@ -18,9 +18,9 @@ bat cache --build
 herdr plugin link ~/.local/share/vim-herdr-navigation >/dev/null
 herdr plugin install ChmaraX/herdr-nvim --yes >/dev/null
 
-# Pokémon sprite, not redistributed in this public repo. Shown as a real image
-# over the kitty protocol; the 8x nearest-neighbour upscale means the terminal
-# only ever shrinks it, so the pixel edges stay sharp.
+# Pokémon sprite, not redistributed in this public repo. 55-fastfetch.zsh plays
+# the frames over the kitty protocol. 3x keeps the edges crisp enough while
+# herdr re-sends each frame as raw RGBA; 8x made it ghost.
 ff=~/.local/share/fastfetch
-[ -f $ff/charizard.png ] || curl -fsSL --create-dirs -o $ff/charizard.png https://img.pokemondb.net/sprites/black-white/shiny/charizard.png
-[ -f $ff/charizard-8x.png ] || magick $ff/charizard.png -trim +repage -sample 800% $ff/charizard-8x.png
+[ -f $ff/charizard.gif ] || curl -fsSL --create-dirs -o $ff/charizard.gif https://img.pokemondb.net/sprites/black-white/anim/shiny/charizard.gif
+[ -d $ff/charizard ] || { mkdir $ff/charizard && magick $ff/charizard.gif -coalesce +repage -sample 300% $ff/charizard/%03d.png; }
