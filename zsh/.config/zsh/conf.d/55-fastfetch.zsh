@@ -20,16 +20,18 @@ zmodload zsh/zselect
 
   {
     trap exit TERM # deferred to between frames, never mid escape sequence
-    local paths=() i id=6 old
+    # herdr only renders inline image data, not file paths
+    local paths=() i id=6 old t=f
+    [[ -n $HERDR_ENV ]] && t=d
     while :; do
       for i in {1..$#frames}; do
-        [[ -n $paths[i] ]] || paths[i]=$(print -rn -- $frames[i] | base64)
+        [[ -n $paths[i] ]] || paths[i]=$( [[ $t == f ]] && print -rn -- $frames[i] | base64 || base64 -i $frames[i] | tr -d '\n')
         # The terminal reads the PNG itself (t=f), so a frame is one short
         # write: the prompt can't land in the middle of it, and the cursor is
         # away too briefly to blink. Two ids, so the old frame stays up until
         # the new one is placed.
         (( old = id, id = id == 6 ? 7 : 6 ))
-        print -rn -- $'\e_Ga=t,t=f,f=100,i='$id$',q=2;'$paths[i]$'\e\\\e7\e['$row$';1H\e_Ga=p,i='$id$',p=1,c=28,r=15,C=1,q=2\e\\\e8\e_Ga=d,d=i,i='$old$',q=2\e\\' 2>/dev/null || exit
+        print -rn -- $'\e_Ga=t,t='$t$',f=100,i='$id$',q=2;'$paths[i]$'\e\\\e7\e['$row$';1H\e_Ga=p,i='$id$',p=1,c=28,r=15,C=1,q=2\e\\\e8\e_Ga=d,d=i,i='$old$',q=2\e\\' 2>/dev/null || exit
         zselect -t 5 # the GIF runs at 50 ms a frame
       done
     done
