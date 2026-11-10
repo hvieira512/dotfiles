@@ -9,3 +9,5 @@ macos-titlebar-style = hidden
 
 # Option esquerda é Alt (Alt+hjkl no herdr e no nvim); a direita continua a escrever os símbolos do teclado PT
 macos-option-as-alt = left
+# Copia o terminfo e o TERM para os servidores por ssh (sem isto: "unknown terminal type xterm-ghostty")
+shell-integration-features = ssh-env,ssh-terminfo

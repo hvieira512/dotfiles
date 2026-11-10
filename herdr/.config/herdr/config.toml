@@ -9,6 +9,17 @@ enabled = true
 
 [ui]
 status_indicators = "dots"
+hide_tab_bar_when_single_tab = true
+
+# sumário da sessão do Claude em vez de só "claude"
+[ui.sidebar.agents.rows_by_agent]
+claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"]]
+
+[terminal]
+new_cwd = "follow"
+
+[experimental]
+pane_history = true
 
 [theme]
 name = "rose-pine"

@@ -24,6 +24,8 @@ brew "fzf-tab"
 brew "gh"
 # GitLab command-line tool
 brew "glab"
+# Secret scanner, run by .githooks/pre-commit
+brew "gitleaks"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
 # Interpreter for PostScript and PDF

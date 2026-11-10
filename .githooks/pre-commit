@@ -1,0 +1,3 @@
+#!/bin/sh
+# Public repo: block commits that stage a secret.
+exec gitleaks git --pre-commit --staged --redact --no-banner

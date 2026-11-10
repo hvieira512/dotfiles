@@ -10,6 +10,8 @@ brew bundle --file=Brewfile
 # ~/.gitconfig overrides ~/.config/git/config
 [ -f ~/.gitconfig ] && mv ~/.gitconfig ~/.gitconfig.bak
 
+git config core.hooksPath .githooks
+
 for pkg in */; do stow "${pkg%/}"; done
 
 bat cache --build
