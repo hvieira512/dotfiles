@@ -38,10 +38,20 @@ zmodload zsh/zselect
   } &!
   _charizard_pid=$!
   preexec_functions+=(_charizard_stop)
+  # An inline frame is a few KB, too big for one atomic write, so a keystroke
+  # echo can land inside it and the terminal prints the base64 as text. Under
+  # herdr, stop on the first keystroke instead of the first command.
+  if [[ -n $HERDR_ENV ]]; then
+    autoload -Uz add-zle-hook-widget
+    add-zle-hook-widget line-pre-redraw _charizard_on_key
+  fi
 }
+
+_charizard_on_key() { [[ -n $BUFFER ]] && _charizard_stop }
 
 _charizard_stop() {
   preexec_functions=(${preexec_functions:#_charizard_stop})
+  [[ -n $HERDR_ENV ]] && add-zle-hook-widget -d line-pre-redraw _charizard_on_key
   kill $_charizard_pid 2>/dev/null || return
   # Let it finish the frame it's on before the command writes anything
   while kill -0 $_charizard_pid 2>/dev/null; do zselect -t 1; done
