@@ -19,25 +19,22 @@ return {
             callback = function(ev)
                 local opts = { buffer = ev.buf, silent = true }
 
-                -- Only the maps that differ from Neovim's own. 0.11 ships
-                -- K (hover), grn (rename), gra (code action), grr (references),
-                -- gri (implementation) and gO (document symbol) by default, so
-                -- K is no longer redefined here. The rest are kept because they
-                -- route through Telescope rather than the quickfix list.
+                -- Only maps that differ from Neovim's defaults (K, grn, gra, grr,
+                -- gri, gO); these route through the picker instead of quickfix.
                 opts.desc = "[R]eferences"
-                vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
+                vim.keymap.set("n", "gR", function() Snacks.picker.lsp_references() end, opts)
 
                 opts.desc = "[D]eclarations"
                 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
                 opts.desc = "[D]efiniton"
-                vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+                vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, opts)
 
                 opts.desc = "[I]mplementation"
-                vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+                vim.keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end, opts)
 
                 opts.desc = "[T]ype [D]efinition"
-                vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+                vim.keymap.set("n", "gt", function() Snacks.picker.lsp_type_definitions() end, opts)
 
                 opts.desc = "[C]ode [A]ctions"
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
@@ -45,7 +42,7 @@ return {
                 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
 
                 opts.desc = "Show buffer diagnostics"
-                vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+                vim.keymap.set("n", "<leader>D", function() Snacks.picker.diagnostics_buffer() end, opts)
                 opts.desc = "Show line diagnostics"
                 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 

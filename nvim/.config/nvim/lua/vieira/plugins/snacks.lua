@@ -24,9 +24,27 @@ return {
             },
         },
         zen = { enabled = true },
+        picker = {
+            enabled = true,
+            sources = {
+                files = { hidden = true, exclude = { "venv", "env", "__pycache__", "*.py[cod]" } },
+                grep = { hidden = true, exclude = { "venv", "env", "__pycache__" } },
+            },
+        },
         -- words = { enabled = true },
     },
     keys = {
+        { "<leader><leader>", function() Snacks.picker.files() end,                     desc = "[F]ind [F]iles" },
+        { "<leader>ff", function() Snacks.picker.files() end,                           desc = "[F]ind [F]iles" },
+        { "<leader>fr", function() Snacks.picker.recent() end,                          desc = "[F]ind [R]ecent Files" },
+        { "<leader>fk", function() Snacks.picker.keymaps() end,                         desc = "[F]ind [K]eymaps" },
+        { "<leader>/",  function() Snacks.picker.grep() end,                            desc = "[F]ind [G]rep" },
+        { "<leader>fs", function() Snacks.picker.lsp_workspace_symbols() end,           desc = "[F]ind [S]ymbols" },
+        { "<leader>fw", function() Snacks.picker.grep_word() end,                       desc = "[F]ind Current [W]ord" },
+        { "<leader>ft", function() Snacks.picker.todo_comments() end,                   desc = "[F]ind [T]odos" },
+        { "<leader>fh", function() Snacks.picker.help() end,                            desc = "[F]ind [H]elp" },
+        { "<leader>uc", function() Snacks.picker.colorschemes() end,                    desc = "[U]I [C]olorscheme" },
+        { "<leader>fn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[F]ind [N]eovim files" },
         { "<leader>lg", function() Snacks.lazygit() end,                desc = "Lazygit" },
         { "<leader>z",  function() Snacks.zen() end,                    desc = "Zen" },
         -- Replacing the two noice message keys worth keeping. noice had five
