@@ -67,5 +67,5 @@ keymap.set("n", "<C-A-l>", "<cmd>wincmd L<CR>", { desc = "Move Split Right" })
 -- select all code
 keymap.set("n", "<C-a>", "ggVG", opts)
 
--- enter lazy
-keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" })
+-- update plugins
+keymap.set("n", "<leader>L", vim.pack.update, { desc = "Update plugins" })

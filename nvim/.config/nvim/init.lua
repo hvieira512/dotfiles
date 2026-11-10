@@ -1,2 +1,4 @@
+vim.loader.enable()
+
 require("vieira.core")
-require("vieira.lazy")
+require("vieira.plugins")

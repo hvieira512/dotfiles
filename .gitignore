@@ -20,7 +20,7 @@ superfile/.config/superfile/hotkeys.toml
 superfile/.config/superfile/theme/*
 !superfile/.config/superfile/theme/rose-pine-moon.toml
 
-nvim/.config/nvim/lazy-lock.json
+nvim/.config/nvim/nvim-pack-lock.json
 
 # written by btop on exit
 btop/.config/btop/btop.conf
