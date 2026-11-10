@@ -2,7 +2,6 @@ local formatters_by_ft = {
     lua = { "stylua" },
     -- conform runs these in order
     python = { "isort", "black" },
-    dart = { "dart_format" },
     -- No php: hitcare is legacy tab-indented PHP+HTML deployed by FTP; a
     -- whole-file reformat turns small changes into huge uploads.
 }
