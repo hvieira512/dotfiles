@@ -4,39 +4,26 @@
 
 [core]
 	editor = nvim
-	# delta reescreve os diffs do git: realce de sintaxe, números de linha e
-	# realce das palavras alteradas dentro da linha.
 	pager = delta
 
 [interactive]
-	# Sem isto, o `git add -p` continuava a mostrar o diff cru do git.
+	# delta também no `git add -p`
 	diffFilter = delta --color-only
 
-# Os temas do delta, vendorizados de github.com/dandavison/delta. Ficam aqui em
-# vez de transcritos à mão para poderem ser actualizados com um curl, e para
-# trocar de tema ser mudar uma palavra no `features` abaixo. `delta
-# --list-syntax-themes` mostra os nomes.
+# Temas do delta, vendorizados do repo do delta; troca-se em `features`.
 [include]
 	path = ~/.config/delta/themes.gitconfig
 
 [delta]
 	features = mellow-barbet
-	# O mellow-barbet traz base16; isto casa as cores de sintaxe com o resto da
-	# máquina, que é Rose Pine Moon no bat e no Ghostty. O tema vem da cache do
-	# bat, portanto depende de `bat cache --build` ter corrido.
+	# Rose Pine Moon como o resto; vem da cache do bat (`bat cache --build`).
 	syntax-theme = rose-pine-moon
 
 [init]
 	defaultBranch = main
 
-# Duas identidades: a pessoal é o default, por isso um clone perdido fora de
-# ~/dev nunca fica carimbado com o email da empresa. A barra no fim de `gitdir:`
-# é obrigatória para apanhar os subdirectórios, e o mais específico vem no fim
-# porque ganha o último a ser lido.
-#
-# O config.work não é versionado (o repo é público); ver config.work.example.
-# Depois da migração, com tudo o que é trabalho em ~/dev/work/, isto colapsa
-# para um único includeIf e o config.personal deixa de ser preciso.
+# Pessoal por omissão; ~/dev/ usa o email de trabalho, ~/dev/personal/ volta ao
+# pessoal (o último lido ganha). config.work não é versionado; ver .example.
 [includeIf "gitdir:~/dev/"]
 	path = ~/.config/git/config.work
 

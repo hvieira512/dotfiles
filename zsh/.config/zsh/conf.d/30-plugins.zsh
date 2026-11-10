@@ -1,18 +1,10 @@
-# Shell integrations and plugins.
-#
-# Plugins come from Homebrew rather than a plugin manager: `brew upgrade` keeps
-# them current, there's no bootstrap step on a new machine, and startup stays
-# fast because nothing has to clone or compile at first launch.
-#
-# Order in this file is load-bearing. fzf-tab needs compinit (20-completion.zsh)
-# to have run, and fast-syntax-highlighting wraps every ZLE widget so it has to
-# see the final set — it goes last.
+# Shell integrations and plugins, all from Homebrew (no plugin manager).
+# Order matters: fzf-tab needs compinit (20-), syntax highlighting goes last.
 
 _zsh_share="${HOMEBREW_PREFIX:-/opt/homebrew}/share"
 
 # --- fzf --------------------------------------------------------------------
-# Back every fzf-driven search with fd so results honour .gitignore and skip
-# .git. Set before sourcing anything that reads these.
+# fd so results honour .gitignore; set before anything reads these.
 export FZF_DEFAULT_COMMAND='fd --type file --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type directory --hidden --follow --exclude .git'
@@ -21,8 +13,7 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-ran
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons --colour=always {}'"
 export FZF_CTRL_R_OPTS="--reverse --preview 'echo {}' --preview-window=down:3:hidden:wrap --bind '?:toggle-preview'"
 
-# Rose Pine Moon, so the picker matches ghostty, herdr, bat and nvim. `bg:-1`
-# keeps the terminal background rather than painting over it.
+# Rose Pine Moon; bg:-1 keeps the terminal background.
 export FZF_DEFAULT_OPTS="
   --height=60% --layout=reverse --border=rounded --info=inline --cycle
   --color=fg:#908caa,bg:-1,hl:#ea9a97
@@ -31,17 +22,14 @@ export FZF_DEFAULT_OPTS="
   --color=spinner:#f6c177,info:#9ccfd8,pointer:#c4a7e7
   --color=marker:#eb6f92,prompt:#908caa"
 
-# ^R history, ^T file picker, alt-C directory jump. fzf binds the emacs, viins
-# and vicmd keymaps explicitly, so `bindkey -v` in 40- doesn't undo any of it.
+# ^R history, ^T files, alt-C dirs; bound in every keymap, so bindkey -v keeps them.
 source <(fzf --zsh)
 
 # --- zoxide -----------------------------------------------------------------
-# `z dev` jumps to the most-used directory matching "dev"; `zi` picks one
-# interactively through fzf. Plain `cd` is untouched.
+# z <dir> jumps to the most-used match, zi picks with fzf.
 eval "$(zoxide init zsh)"
 
 # --- fzf-tab ----------------------------------------------------------------
-# Replaces the completion menu with an fzf picker, with previews per command.
 source "$_zsh_share/fzf-tab/fzf-tab.zsh"
 
 zstyle ':fzf-tab:*' switch-group ',' '.'          # cycle between groups
@@ -60,11 +48,10 @@ zstyle ':fzf-tab:complete:git-(add|diff|restore|checkout|switch):*' \
   fzf-preview 'git diff --color=always -- $realpath'
 
 # --- version and env managers ----------------------------------------------
-# mise: per-project runtime versions. Inert until a project has a .mise.toml or
-# .tool-versions, so the brew-installed node/python/go stay in charge by default.
+# mise only acts in projects with .mise.toml/.tool-versions; brew runtimes otherwise.
 eval "$(mise activate zsh)"
 
-# direnv: per-project env from .envrc, after mise so its hook runs last.
+# direnv after mise so its hook runs last.
 eval "$(direnv hook zsh)"
 
 # --- ZLE plugins ------------------------------------------------------------

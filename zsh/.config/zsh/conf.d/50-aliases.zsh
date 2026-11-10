@@ -1,16 +1,13 @@
 # Aliases and small functions.
 
 # --- listing ----------------------------------------------------------------
-# eza replaces ls: --git annotates each entry with its working-tree status, and
-# the icons come from the Nerd Font ghostty is already loading.
 alias ls='eza --icons --group-directories-first'
 alias ll='eza --icons --group-directories-first --long --git --header'
 alias la='eza --icons --group-directories-first --long --git --header --all'
 alias lt='eza --icons --tree --level=2 --git-ignore'
 alias ltt='eza --icons --tree --level=4 --git-ignore'
 
-# bat degrades to plain cat when stdout isn't a terminal, so pipes and
-# redirections behave exactly as before.
+# bat acts as plain cat when piped.
 alias cat='bat --paging=never'
 alias catp='bat --paging=never --style=plain'   # no line numbers, for copy-paste
 
@@ -52,17 +49,7 @@ alias brewup='brew update && brew upgrade && brew cleanup'
 alias brewdrift='brew bundle cleanup --file="$DOTFILES/Brewfile"'
 
 # --- claude code --------------------------------------------------------------
-# Always start with the Claude in Chrome integration on, so Claude can drive the
-# Brave window that's already open — read the page, click, measure — without the
-# browser needing anything special. The extension is already installed.
-#
-# It has to be an alias because `--chrome` is a startup option: a session begun
-# without it can't turn it on later. The alternative was launching Brave with
-# `--remote-debugging-port=9222` for the chrome-devtools MCP, which only takes
-# effect at browser startup and so meant quitting the browser every time.
-#
-# zsh doesn't re-expand an alias over its own name, so this doesn't recurse, and
-# `claude --no-chrome` still opts out — the later flag wins.
+# Claude in Chrome on by default (startup-only flag); --no-chrome opts out.
 alias claude='claude --chrome'
 
 # --- misc -------------------------------------------------------------------
@@ -75,8 +62,7 @@ alias top='btop'
 alias help='tldr'
 
 # --- global aliases ---------------------------------------------------------
-# A zsh feature bash doesn't have: these expand anywhere on the line, not just
-# in command position. `cat foo.json J .name` works.
+# Expand anywhere on the line: `cat foo.json J .name`.
 alias -g G='| rg'
 alias -g L='| less'
 alias -g J='| jq'
@@ -148,9 +134,7 @@ mqsub() {
     print -u2 "mqsub: no password in the Keychain; run: security add-generic-password -s mqsub -a $MQ_USER -w"
     return 1
   }
-  # -o takes the credentials from a file descriptor instead of argv. With -P the
-  # password sits in `ps` output for every user on the machine, for as long as
-  # the subscription runs, which defeats keeping it in the Keychain at all.
+  # -o reads credentials from an fd; -P would expose the password in `ps`.
   mosquitto_sub -o <(printf -- '-u %s\n-P %s\n' "$MQ_USER" "$pw") \
     -h "$MQ_HOST" -p "${MQ_PORT:-1883}" -v -t "$topic" |
   # ponytail: assumes one message per line, which is what the hub publishes. A
