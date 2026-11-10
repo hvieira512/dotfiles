@@ -1,21 +1,19 @@
+local formatters_by_ft = {
+    lua = { "stylua" },
+    -- conform runs these in order
+    python = { "isort", "black" },
+    -- No php: hitcare is legacy tab-indented PHP+HTML deployed by FTP; a
+    -- whole-file reformat turns small changes into huge uploads.
+}
+for _, ft in ipairs({
+    "javascript", "javascriptreact", "typescript", "typescriptreact",
+    "css", "html", "json", "yaml", "markdown", "dart",
+}) do
+    formatters_by_ft[ft] = { "prettier" }
+end
+
 require("conform").setup({
-    formatters_by_ft = {
-        javascript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-        css = { "prettier" },
-        html = { "prettier" },
-        json = { "prettier" },
-        yaml = { "prettier" },
-        markdown = { "prettier" },
-        lua = { "stylua" },
-        -- conform runs these in order
-        python = { "isort", "black" },
-        -- No php: hitcare is legacy tab-indented PHP+HTML deployed by FTP; a
-        -- whole-file reformat turns small changes into huge uploads.
-        dart = { "prettier" },
-    },
+    formatters_by_ft = formatters_by_ft,
     -- A function so php also skips lsp_fallback (intelephense's formatter).
     format_on_save = function(bufnr)
         if vim.bo[bufnr].filetype == "php" then

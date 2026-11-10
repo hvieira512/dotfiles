@@ -19,20 +19,23 @@ keymap.set("n", "<leader>e", "<cmd>Oil<CR>", { desc = "[E]xplorer" })
 keymap.set("n", "x", '"_x', opts)
 
 -- center screen after scrolling
-keymap.set("n", "<C-d>", "<C-d>zz", opts)
-keymap.set("n", "<C-u>", "<C-u>zz", opts)
+for _, key in ipairs({ "<C-d>", "<C-u>" }) do
+    keymap.set("n", key, key .. "zz", opts)
+end
 
 -- center screen hen searching
-keymap.set("n", "n", "nzzzv", opts)
-keymap.set("n", "N", "Nzzzv", opts)
+for _, key in ipairs({ "n", "N" }) do
+    keymap.set("n", key, key .. "zzzv", opts)
+end
 
 -- move code in visual mode
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- indent code without leaving visual mode
-keymap.set("v", "<", "<gv", opts)
-keymap.set("v", ">", ">gv", opts)
+for _, key in ipairs({ "<", ">" }) do
+    keymap.set("v", key, key .. "gv", opts)
+end
 
 -- keep last yanked after pasting
 keymap.set("v", "p", '"_dP', opts)
@@ -45,10 +48,14 @@ local function resize(cmd, dir, a, b)
         vim.cmd(cmd)
     end
 end
-keymap.set("n", "<A-k>", function() resize("resize -2", "up", "k", "j") end, opts)
-keymap.set("n", "<A-j>", function() resize("resize +2", "down", "k", "j") end, opts)
-keymap.set("n", "<A-h>", function() resize("vertical resize +2", "left", "h", "l") end, opts)
-keymap.set("n", "<A-l>", function() resize("vertical resize -2", "right", "h", "l") end, opts)
+for key, args in pairs({
+    k = { "resize -2", "up", "k", "j" },
+    j = { "resize +2", "down", "k", "j" },
+    h = { "vertical resize +2", "left", "h", "l" },
+    l = { "vertical resize -2", "right", "h", "l" },
+}) do
+    keymap.set("n", "<A-" .. key .. ">", function() resize(unpack(args)) end, opts)
+end
 
 -- create splits
 keymap.set("n", "<leader>sh", "<cmd>leftabove vsplit<CR>", { desc = "[S]plit Left" })
@@ -59,10 +66,9 @@ keymap.set("n", "<leader>s=", "<C-w>=", { desc = "[S]plit [E]qual" })
 keymap.set("n", "<leader>sq", "<cmd>close<CR>", { desc = "[S]plit [Q]uit" })
 
 -- move splits
-keymap.set("n", "<C-A-h>", "<cmd>wincmd H<CR>", { desc = "Move Split Left" })
-keymap.set("n", "<C-A-j>", "<cmd>wincmd J<CR>", { desc = "Move Split Down" })
-keymap.set("n", "<C-A-k>", "<cmd>wincmd K<CR>", { desc = "Move Split Up" })
-keymap.set("n", "<C-A-l>", "<cmd>wincmd L<CR>", { desc = "Move Split Right" })
+for key, name in pairs({ h = "Left", j = "Down", k = "Up", l = "Right" }) do
+    keymap.set("n", "<C-A-" .. key .. ">", "<cmd>wincmd " .. key:upper() .. "<CR>", { desc = "Move Split " .. name })
+end
 
 -- select all code
 keymap.set("n", "<C-a>", "ggVG", opts)

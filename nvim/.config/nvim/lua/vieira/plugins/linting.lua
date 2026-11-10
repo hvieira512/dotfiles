@@ -3,11 +3,10 @@ local lint = require("lint")
 lint.linters_by_ft = {
     python = { "pylint" },
     php = { "phpcs" },
-    javascript = { "eslint_d" },
-    javascriptreact = { "eslint_d" },
-    typescript = { "eslint_d" },
-    typescriptreact = { "eslint_d" },
 }
+for _, ft in ipairs({ "javascript", "javascriptreact", "typescript", "typescriptreact" }) do
+    lint.linters_by_ft[ft] = { "eslint_d" }
+end
 
 -- coisascomgosto has no pylint config; silence the stock noise.
 local pylint = lint.linters.pylint
@@ -33,9 +32,7 @@ end
 -- On write and InsertLeave, not every keystroke.
 vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
     group = vim.api.nvim_create_augroup("VieiraLint", { clear = true }),
-    callback = function()
-        try_lint()
-    end,
+    callback = function() try_lint() end,
 })
 
 vim.keymap.set("n", "<leader>ll", try_lint, { desc = "[L]int this buffer" })

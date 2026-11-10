@@ -1,50 +1,35 @@
 -- nvim-lspconfig only ships the server definitions; mason-lspconfig enables them.
-require("lazydev").setup()
+-- Snacks is a runtime global, so load its types whenever a file mentions it.
+require("lazydev").setup({
+    library = { { path = "snacks.nvim", words = { "Snacks" } } },
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
-        local opts = { buffer = ev.buf, silent = true }
+        local function map(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, silent = true, desc = desc })
+        end
 
         -- Only maps that differ from Neovim's defaults (K, grn, gra, grr,
         -- gri, gO); these route through the picker instead of quickfix.
-        opts.desc = "[R]eferences"
-        vim.keymap.set("n", "gR", function() Snacks.picker.lsp_references() end, opts)
-
-        opts.desc = "[D]eclarations"
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-
-        opts.desc = "[D]efiniton"
-        vim.keymap.set("n", "gd", function() Snacks.picker.lsp_definitions() end, opts)
-
-        opts.desc = "[I]mplementation"
-        vim.keymap.set("n", "gi", function() Snacks.picker.lsp_implementations() end, opts)
-
-        opts.desc = "[T]ype [D]efinition"
-        vim.keymap.set("n", "gt", function() Snacks.picker.lsp_type_definitions() end, opts)
-
-        opts.desc = "[C]ode [A]ctions"
-        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-        opts.desc = "[C]ode Smart [R]ename"
-        vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
-
-        opts.desc = "Show buffer diagnostics"
-        vim.keymap.set("n", "<leader>D", function() Snacks.picker.diagnostics_buffer() end, opts)
-        opts.desc = "Show line diagnostics"
-        vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+        map("n", "gR", function() Snacks.picker.lsp_references() end, "[R]eferences")
+        map("n", "gD", vim.lsp.buf.declaration, "[D]eclarations")
+        map("n", "gd", function() Snacks.picker.lsp_definitions() end, "[D]efiniton")
+        map("n", "gi", function() Snacks.picker.lsp_implementations() end, "[I]mplementation")
+        map("n", "gt", function() Snacks.picker.lsp_type_definitions() end, "[T]ype [D]efinition")
+        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ctions")
+        map("n", "<leader>cr", vim.lsp.buf.rename, "[C]ode Smart [R]ename")
+        map("n", "<leader>D", function() Snacks.picker.diagnostics_buffer() end, "Show buffer diagnostics")
+        map("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics")
 
         -- goto_prev/goto_next are deprecated; jump() replaces both.
-        opts.desc = "Go to previous diagnostic"
-        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-        opts.desc = "Go to next diagnostic"
-        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+        map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Go to previous diagnostic")
+        map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Go to next diagnostic")
 
         -- Neovim 0.12's :lsp replaces lspconfig's :LspRestart.
-        opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<CR>", opts)
-
-        opts.desc = "Info LSP"
-        vim.keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<CR>", opts)
+        map("n", "<leader>lr", "<cmd>lsp restart<CR>", "Restart LSP")
+        map("n", "<leader>li", "<cmd>checkhealth vim.lsp<CR>", "Info LSP")
     end,
 })
 
