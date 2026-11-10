@@ -1,17 +1,10 @@
--- nvim-lspconfig is still here for the server *definitions* it ships in lsp/,
--- which vim.lsp.config reads. Its own lspconfig.setup() framework is not used:
--- Neovim 0.11 made vim.lsp.config()/vim.lsp.enable() native, and mason-lspconfig
--- v2 enables each installed server itself, so the old setup_handlers block is
--- gone along with the v1 API it depended on.
+-- Only for the server definitions in its lsp/; mason-lspconfig enables them.
 return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         { "saghen/blink.cmp" },
-        { "antosha417/nvim-lsp-file-operations", config = true },
-        -- lazydev replaces neodev, which is archived upstream. ft-gated because
-        -- it only has anything to say about Lua buffers.
-        { "folke/lazydev.nvim",                  ft = "lua", opts = {} },
+        { "folke/lazydev.nvim", ft = "lua", opts = {} },
     },
     config = function()
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -52,12 +45,7 @@ return {
                 opts.desc = "Go to next diagnostic"
                 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 
-                -- `:lsp restart`, not `:LspRestart`. Neovim 0.12 ships a
-                -- native `:lsp` command, and nvim-lspconfig's plugin file now
-                -- opens with `if vim.fn.exists(':lsp') == 2 then return end` —
-                -- so on 0.12 it defines none of LspStart/LspStop/LspRestart/
-                -- LspInfo/LspLog, and this keymap was calling a command that
-                -- no longer exists. Subcommands: disable, enable, restart, stop.
+                -- Neovim 0.12's :lsp replaces lspconfig's :LspRestart.
                 opts.desc = "Restart LSP"
                 vim.keymap.set("n", "<leader>lr", "<cmd>lsp restart<CR>", opts)
 
@@ -66,20 +54,12 @@ return {
             end,
         })
 
-        -- One call replaces the sign_define loop. virtual_lines is what
-        -- tiny-inline-diagnostic was installed for; it is native since 0.11,
-        -- so the plugin is gone. current_line keeps it to the cursor's line
-        -- instead of every diagnostic in the buffer at once.
+        -- virtual_lines on the cursor line only.
         vim.diagnostic.config({
             virtual_lines = { current_line = true },
             virtual_text = false,
             severity_sort = true,
-            -- Written as \u{...} escapes rather than the glyphs themselves.
-            -- These are Nerd Font private-use codepoints, and pasting them as
-            -- literal characters is how three of the four got silently eaten
-            -- once already — only the hint survived, because it sits outside
-            -- the BMP and is encoded differently. The escapes are plain ASCII
-            -- on disk, so nothing in between can mangle them.
+            -- \u{} escapes, not glyphs: pasted Nerd Font codepoints got eaten once.
             signs = {
                 text = {
                     [vim.diagnostic.severity.ERROR] = "\u{f057} ", -- circled ×
@@ -90,9 +70,11 @@ return {
             },
         })
 
-        -- Defaults every server inherits. '*' is the wildcard config.
+        -- fileOperations lets servers update imports when oil renames a file.
         vim.lsp.config("*", {
-            capabilities = require("blink.cmp").get_lsp_capabilities(),
+            capabilities = require("blink.cmp").get_lsp_capabilities({
+                workspace = { fileOperations = { didRename = true, willRename = true } },
+            }),
         })
 
         -- Project-wide diagnostics on demand: load matching files as unlisted

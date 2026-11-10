@@ -1,7 +1,3 @@
--- Catppuccin used to sit alongside this one, installed and eagerly loaded with a
--- full setup() call every startup — while its `colorscheme catppuccin` line was
--- commented out. A whole theme costing ~2.9ms to configure something nothing
--- ever selected. Removed; add it back as a spec if you want to switch.
 return {
     'rose-pine/neovim',
     name = 'rose-pine',

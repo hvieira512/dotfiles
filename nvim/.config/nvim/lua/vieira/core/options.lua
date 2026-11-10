@@ -7,10 +7,7 @@ vim.opt.showmode = false
 -- nerd font
 g.have_nerd_font = true
 
--- Remote plugin hosts, switched off rather than left missing. Nothing here needs
--- them, and unset they account for six of :checkhealth's warnings — noise that
--- makes the real findings harder to spot. Turn one back on if a plugin ever
--- asks for it.
+-- Remote plugin hosts off: nothing uses them, and they spam :checkhealth.
 g.loaded_node_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_python3_provider = 0
@@ -39,12 +36,7 @@ vim.opt.smartcase = true  -- override ignorecase if search pattern contains uppe
 vim.opt.incsearch = true  -- show matches as you type
 vim.opt.hlsearch = false  -- do not highlight search matches
 
--- Spell checking, English and Portuguese together, so a paragraph mixing the
--- two is not underlined end to end. Neovim fetches the dictionaries itself the
--- first time it needs them.
---
--- Only where prose actually lives: on globally it flags every identifier in
--- every source file. z= suggests, zg adds a word, zw marks one wrong.
+-- Spell check en+pt, only on prose filetypes.
 opt.spelllang = "en,pt"
 vim.api.nvim_create_autocmd("FileType", {
     desc = "Spell check prose, not code",
@@ -89,9 +81,7 @@ opt.laststatus = 3        -- one statusline for all windows
 require("vim._core.ui2").enable({})
 opt.cmdheight = 0
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.hl.on_yank()`
+-- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
     group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
