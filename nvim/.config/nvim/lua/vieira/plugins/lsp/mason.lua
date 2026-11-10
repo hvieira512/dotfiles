@@ -28,7 +28,8 @@ require("mason-lspconfig").setup({
 
 require("mason-tool-installer").setup({
     ensure_installed = {
-        "prettier",     -- js/ts/css/html/json/yaml/markdown formatter
+        "prettierd",    -- prettier as a daemon, run by conform on save
+        "prettier",     -- fallback when prettierd is missing
         "stylua",       -- lua formatter
         "isort",        -- python import sorter
         "black",        -- python formatter

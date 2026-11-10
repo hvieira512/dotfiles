@@ -2,14 +2,15 @@ local formatters_by_ft = {
     lua = { "stylua" },
     -- conform runs these in order
     python = { "isort", "black" },
+    dart = { "dart_format" },
     -- No php: hitcare is legacy tab-indented PHP+HTML deployed by FTP; a
     -- whole-file reformat turns small changes into huge uploads.
 }
 for _, ft in ipairs({
     "javascript", "javascriptreact", "typescript", "typescriptreact",
-    "css", "html", "json", "yaml", "markdown", "dart",
+    "css", "html", "json", "yaml", "markdown",
 }) do
-    formatters_by_ft[ft] = { "prettier" }
+    formatters_by_ft[ft] = { "prettierd", "prettier", stop_after_first = true }
 end
 
 require("conform").setup({
