@@ -82,6 +82,13 @@ opt.fillchars = { eob = ' ' } -- disable tilda on empty line
 
 opt.swapfile = false
 
+opt.winborder = "rounded" -- default border for every floating window
+opt.laststatus = 3        -- one statusline for all windows
+
+-- Native floating cmdline and messages (experimental), so the cmdline row can go.
+require("vim._core.ui2").enable({})
+opt.cmdheight = 0
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
