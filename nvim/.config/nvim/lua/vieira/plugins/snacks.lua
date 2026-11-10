@@ -5,6 +5,11 @@ require("snacks").setup({
     notifier = { enabled = true },
     lazygit = { enabled = true },
     dashboard = {
+        -- Default sections minus "startup", which reads lazy.nvim's stats.
+        sections = {
+            { section = "header" },
+            { section = "keys", gap = 1, padding = 1 },
+        },
         preset = {
             keys = {
                 { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
