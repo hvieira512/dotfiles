@@ -23,10 +23,41 @@ for _, key in ipairs({ "<C-d>", "<C-u>" }) do
     keymap.set("n", key, key .. "zz", opts)
 end
 
--- center screen hen searching
-for _, key in ipairs({ "n", "N" }) do
-    keymap.set("n", key, key .. "zzzv", opts)
+-- center screen when searching, with a [3/12] badge on the match line
+local search_ns = vim.api.nvim_create_namespace("search_badge")
+local badge_pos
+
+local function search_badge()
+    vim.api.nvim_buf_clear_namespace(0, search_ns, 0, -1)
+    local ok, sc = pcall(vim.fn.searchcount, { maxcount = 9999 })
+    if not ok or sc.total == 0 then return end
+    badge_pos = vim.api.nvim_win_get_cursor(0)
+    vim.api.nvim_buf_set_extmark(0, search_ns, badge_pos[1] - 1, 0, {
+        virt_text = { { (" %d/%d "):format(sc.current, sc.total), "IncSearch" } },
+    })
 end
+
+for _, key in ipairs({ "n", "N", "*", "#" }) do
+    keymap.set("n", key, function()
+        local ok, err = pcall(vim.cmd.normal, { vim.v.count1 .. key .. "zzzv", bang = true })
+        if not ok then return vim.notify(err:gsub("^.-E%d+: ", ""), vim.log.levels.ERROR) end
+        search_badge()
+    end, opts)
+end
+
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+    pattern = { "/", "?" },
+    callback = function() vim.schedule(search_badge) end,
+})
+-- drop the badge once the cursor leaves the match
+vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+    callback = function()
+        if badge_pos and not vim.deep_equal(vim.api.nvim_win_get_cursor(0), badge_pos) then
+            vim.api.nvim_buf_clear_namespace(0, search_ns, 0, -1)
+            badge_pos = nil
+        end
+    end,
+})
 
 -- move code in visual mode
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
