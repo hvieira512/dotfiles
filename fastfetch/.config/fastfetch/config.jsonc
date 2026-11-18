@@ -16,9 +16,8 @@
     "color": { "keys": "#c4a7e7", "title": "#eb6f92", "separator": "#6e6a86" },
     "key": { "width": 8 }
   },
-  // 15-line logo, 8 lines of info: 4 breaks centre them
+  // 15-line logo, 9 lines of info: 3 breaks centre them
   "modules": [
-    "break",
     "break",
     "break",
     "break",
@@ -27,6 +26,7 @@
     "host",
     "cpu",
     "memory",
+    { "type": "display", "key": "Display" },
     { "type": "disk", "key": "Disk", "folders": "/" },
     "uptime",
     "shell"
