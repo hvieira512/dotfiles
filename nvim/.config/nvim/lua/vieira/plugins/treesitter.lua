@@ -9,6 +9,8 @@ require("nvim-treesitter").install({
     "dockerfile",
     "gitignore",
     "go",
+    "gomod",
+    "gosum",
     "html",
     "javascript",
     "json",
